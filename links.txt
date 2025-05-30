@@ -1,0 +1,1 @@
+https://adoptium.net/de/temurin/releases/?version=19
