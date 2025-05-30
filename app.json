@@ -1,4 +1,12 @@
 {
   "name": "AbiPilot",
-  "displayName": "AbiPilot"
+  "packageIdentifier": "com.abipilot",
+  "displayName": "Abi Pilot",
+  "version": "1.0",
+  "android":{
+    "orientation": "portrait"
+  },
+  "ios":{
+    "orientation": "UIInterfaceOrientationPortrait"
+  }
 }
