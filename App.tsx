@@ -13,11 +13,17 @@ import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import SettingsScreen from './app/pages/Settings';
 import HomeScreen from './app/pages/Home';
 import ListScreen from './app/pages/List';
-import Styles from './app/Styles';
+import { ThemeProvider, useTheme, ThemeType } from './app/ThemeProvider';
 
 const Tab = createBottomTabNavigator();
 
-export default class App extends React.Component {
+export default function App(){
+  const { colors } = useTheme();
+  
+  return ( <ThemedApp {...colors} /> );
+}
+
+class ThemedApp extends React.Component<ThemeType> {
   componentDidMount() {
     KeepAwake.activate();
     changeNavigationBarColor('transparent', false);
@@ -27,14 +33,18 @@ export default class App extends React.Component {
     KeepAwake.deactivate();
   }
 
-  render() {
-    return (
-      <NavigationContainer>
+  render(){
+    const colors = this.props;
+
+    return(
+      <ThemeProvider>
+        <NavigationContainer>
           <Tab.Navigator 
             screenOptions={{
-              tabBarStyle: { backgroundColor: Styles.navbarColor },
-              tabBarActiveTintColor: Styles.navitemActiveColor,
-              tabBarInactiveTintColor: Styles.navitemInactiveColor,
+              
+              tabBarStyle: { backgroundColor: colors.navbarColor },
+              tabBarActiveTintColor: colors.navitemActiveColor,
+              tabBarInactiveTintColor: colors.navitemInactiveColor,
               headerShown: false,
               tabBarButton: (props) => ( <PlatformPressable {...props} android_ripple={{ color: 'transparent' }}/> ), // Disable the ripple effect on android
             }}
@@ -45,6 +55,7 @@ export default class App extends React.Component {
           <Tab.Screen name="Liste" component={ListScreen} />
           </Tab.Navigator>
         </NavigationContainer>
-    );
+      </ThemeProvider>
+    )
   }
 }

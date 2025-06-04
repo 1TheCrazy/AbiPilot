@@ -2,17 +2,21 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import Styles from '../Styles'
+// Testing
+import { CourseWidget } from '../components/CourseWidget';
+import { useTheme } from '../ThemeProvider';
 
 export default function HomeScreen() {
+  const { colors } = useTheme();
   return (
     <SafeAreaView style={{
-            backgroundColor: Styles.backgroundColor,
+            backgroundColor: colors.backgroundColor,
             padding: 16
         }}>
-        <Text style={{color: Styles.fontColor}}>
+        <Text style={{color: colors.fontColor}}>
             Home Page
         </Text>
+        <CourseWidget name="TEST 123"></CourseWidget>
     </SafeAreaView>
   );
 }

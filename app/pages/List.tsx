@@ -1,16 +1,17 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-import Styles from '../Styles'
+import { useTheme } from '../ThemeProvider';
 
 export default function ListScreen() {
+  const { colors } = useTheme();
+
   return (
     <SafeAreaView style={{
-            backgroundColor: Styles.backgroundColor,
+            backgroundColor: colors.backgroundColor,
             padding: 16
         }}>
-        <Text style={{color: Styles.fontColor}}>
+        <Text style={{color: colors.fontColor}}>
             List Page
         </Text>
     </SafeAreaView>
