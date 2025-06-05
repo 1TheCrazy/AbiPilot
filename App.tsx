@@ -1,14 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { PlatformPressable } from '@react-navigation/elements'
-import { Text, View } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 // If you get an error here, this is because there is no type annotaions shipped by default. 
-// Include an appropriate react-native-keep-awake.d.ts in ./node_modules/@types to disable this
+// Include an appropriate react-native-keep-awake.d.ts in ./node_modules/@types or ./node_modules/react-native-keep-awake to disable this
 // You can also choose to ignore this or add an @ts-ignore
 import KeepAwake from 'react-native-keep-awake'; 
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
+import BootSplash from "react-native-bootsplash";
 
 import SettingsScreen from './app/pages/Settings';
 import HomeScreen from './app/pages/Home';
@@ -27,6 +26,7 @@ class ThemedApp extends React.Component<ThemeType> {
   componentDidMount() {
     KeepAwake.activate();
     changeNavigationBarColor('transparent', false);
+    async () => {console.log('should hide now'); await BootSplash.hide({ fade: true }); };
   }
 
   componentWillUnmount() {
@@ -38,7 +38,10 @@ class ThemedApp extends React.Component<ThemeType> {
 
     return(
       <ThemeProvider>
-        <NavigationContainer>
+        <NavigationContainer
+          onReady={() => {
+          BootSplash.hide({fade: true}); // Hide SplashScreen
+          }}>
           <Tab.Navigator 
             screenOptions={{
               
