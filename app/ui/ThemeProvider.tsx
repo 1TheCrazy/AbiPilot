@@ -10,6 +10,8 @@ const themes = {
     navitemInactiveColor: 'rgb(112, 112, 112)',
     fontColor: 'rgb(223, 223, 223)',
     courseCardBorderColor: '#aaa',
+    hrColor: '#ccc',
+    transparentAccent: 'rgba(255, 255, 255, 0.25)'
   },
   light: {
     /* Fill with actual light styles */
@@ -19,6 +21,8 @@ const themes = {
     navitemInactiveColor: 'rgb(201, 81, 81)',
     fontColor: 'rgb(66, 16, 16)',
     courseCardBorderColor: '#aaa',
+    hrColor: '#ccc',
+    transparentAccent: 'rgba(255, 255, 255, 0.6)'
   },
 };
 

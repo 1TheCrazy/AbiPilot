@@ -9,10 +9,10 @@ import KeepAwake from 'react-native-keep-awake';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import BootSplash from "react-native-bootsplash";
 
-import SettingsScreen from './app/pages/Settings';
-import HomeScreen from './app/pages/Home';
-import ListScreen from './app/pages/List';
-import { ThemeProvider, useTheme, ThemeType } from './app/ThemeProvider';
+import SettingsScreen from './app/ui/pages/Settings';
+import HomeScreen from './app/ui/pages/Home';
+import ListScreen from './app/ui/pages/List';
+import { ThemeProvider, useTheme, ThemeType } from './app/ui/ThemeProvider';
 
 const Tab = createBottomTabNavigator();
 
@@ -55,7 +55,7 @@ class ThemedApp extends React.Component<ThemeType> {
             >
           <Tab.Screen name="Einstellungen" component={SettingsScreen}/>
           <Tab.Screen name="Home" component={HomeScreen} />
-          <Tab.Screen name="Liste" component={ListScreen} />
+          <Tab.Screen name="Fächer" component={ListScreen} />
           </Tab.Navigator>
         </NavigationContainer>
       </ThemeProvider>

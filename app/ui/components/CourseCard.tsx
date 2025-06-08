@@ -8,7 +8,7 @@ interface CourseWidgetProps{
   name: string
 }
 
-export const CourseWidget: React.FC<CourseWidgetProps> = ({name}) => {
+export const CourseCard: React.FC<CourseWidgetProps> = ({name}) => {
   const { colors } = useTheme();
   
   return (
