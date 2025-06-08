@@ -1,131 +1,64 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React, { useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { PlatformPressable } from '@react-navigation/elements'
+// If you get an error here, this is because there is no type annotaions shipped by default. 
+// Include an appropriate react-native-keep-awake.d.ts in ./node_modules/@types or ./node_modules/react-native-keep-awake to disable this
+// You can also choose to ignore this or add an @ts-ignore
+import KeepAwake from 'react-native-keep-awake'; 
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
+import BootSplash from "react-native-bootsplash";
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import SettingsScreen from './app/ui/pages/Settings';
+import HomeScreen from './app/ui/pages/Home';
+import ListScreen from './app/ui/pages/List';
+import { ThemeProvider, useTheme, ThemeType } from './app/ui/ThemeProvider';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const Tab = createBottomTabNavigator();
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
+export default function App(){
+  const { colors } = useTheme();
+  
+  return ( <ThemedApp {...colors} /> );
 }
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+class ThemedApp extends React.Component<ThemeType> {
+  componentDidMount() {
+    KeepAwake.activate();
+    changeNavigationBarColor('transparent', false);
+    async () => {console.log('should hide now'); await BootSplash.hide({ fade: true }); };
+  }
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  componentWillUnmount() {
+    KeepAwake.deactivate();
+  }
 
-  /*
-   * To keep the template simple and small we're adding padding to prevent view
-   * from rendering under the System UI.
-   * For bigger apps the recommendation is to use `react-native-safe-area-context`:
-   * https://github.com/AppAndFlow/react-native-safe-area-context
-   *
-   * You can read more about it here:
-   * https://github.com/react-native-community/discussions-and-proposals/discussions/827
-   */
-  const safePadding = '5%';
+  render(){
+    const colors = this.props;
 
-  return (
-    <View style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        style={backgroundStyle}>
-        <View style={{paddingRight: safePadding}}>
-          <Header/>
-        </View>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-            paddingHorizontal: safePadding,
-            paddingBottom: safePadding,
+    return(
+      <ThemeProvider>
+        <NavigationContainer
+          onReady={() => {
+          BootSplash.hide({fade: true}); // Hide SplashScreen
           }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </View>
-  );
+          <Tab.Navigator 
+            screenOptions={{
+              
+              tabBarStyle: { backgroundColor: colors.navbarColor },
+              tabBarActiveTintColor: colors.navitemActiveColor,
+              tabBarInactiveTintColor: colors.navitemInactiveColor,
+              headerShown: false,
+              tabBarButton: (props) => ( <PlatformPressable {...props} android_ripple={{ color: 'transparent' }}/> ), // Disable the ripple effect on android
+            }}
+            initialRouteName='Home'
+            >
+          <Tab.Screen name="Einstellungen" component={SettingsScreen}/>
+          <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen name="Fächer" component={ListScreen} />
+          </Tab.Navigator>
+        </NavigationContainer>
+      </ThemeProvider>
+    )
+  }
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
-export default App;
