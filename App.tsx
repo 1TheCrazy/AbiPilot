@@ -26,7 +26,7 @@ class ThemedApp extends React.Component<ThemeType> {
   componentDidMount() {
     KeepAwake.activate();
     changeNavigationBarColor('transparent', false);
-    async () => {console.log('should hide now'); await BootSplash.hide({ fade: true }); };
+    async () => { await BootSplash.hide({ fade: true }); };
   }
 
   componentWillUnmount() {

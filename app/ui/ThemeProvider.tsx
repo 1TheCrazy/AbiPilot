@@ -1,4 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { useColorScheme } from 'react-native';
+
+import { Client } from "../client/SaveSystem"
 
 type Theme = 'light' | 'dark';
 
@@ -35,7 +38,11 @@ const ThemeContext = createContext<{
 });
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<Theme>('dark');
+  // Get system Theme, if undefined default to dark
+  let sysTheme = useColorScheme();
+  sysTheme = sysTheme ? sysTheme : 'dark';
+
+  const [theme, setTheme] = useState<Theme>(Client.settings.theme == 'system' ?  sysTheme : Client.settings.theme);
 
   return (
     <ThemeContext.Provider value={{ colors: themes[theme], setTheme }}>
