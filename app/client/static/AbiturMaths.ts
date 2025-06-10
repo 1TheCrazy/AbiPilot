@@ -12,22 +12,22 @@ export function GradeToPoints15(grade: number): number {
 
 export function PointsToGrade15(points: number): number {
     const map: number[] = [
-        6.0, // 0 points
-        5.7, // 1
-        5.3, // 2
-        5.0, // 3
-        4.7, // 4
-        4.3, // 5
-        4.0, // 6
-        3.7, // 7
-        3.3, // 8
-        3.0, // 9
-        2.7, // 10
-        2.3, // 11
-        2.0, // 12
-        1.7, // 13
-        1.3, // 14
-        1.0  // 15
+        6,   // 0 points
+        5.3, // 1
+        5,   // 2
+        4.7, // 3
+        4.3, // 4
+        4,   // 5
+        3.7, // 6
+        3.3, // 7
+        3,   // 8
+        2.7, // 9
+        2.3, // 10
+        2,   // 11
+        1.7, // 12
+        1.3, // 13
+        1,   // 14
+        0.7  // 15
     ];
 
     // We assume no misuse with 0 <= points <= 15
