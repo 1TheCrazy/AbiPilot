@@ -8,6 +8,7 @@ import { PlatformPressable } from '@react-navigation/elements'
 import KeepAwake from 'react-native-keep-awake'; 
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import BootSplash from "react-native-bootsplash";
+import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 
 import SettingsScreen from './app/ui/pages/Settings';
 import HomeScreen from './app/ui/pages/Home';
@@ -26,7 +27,6 @@ class ThemedApp extends React.Component<ThemeType> {
   componentDidMount() {
     KeepAwake.activate();
     changeNavigationBarColor('transparent', false);
-    async () => { await BootSplash.hide({ fade: true }); };
   }
 
   componentWillUnmount() {
@@ -40,17 +40,33 @@ class ThemedApp extends React.Component<ThemeType> {
       <ThemeProvider>
         <NavigationContainer
           onReady={() => {
-          BootSplash.hide({fade: true}); // Hide SplashScreen
+            BootSplash.hide({fade: true}); // Hide SplashScreen
           }}>
           <Tab.Navigator 
-            screenOptions={{
-              
+          backBehavior='history'
+            screenOptions={({route}) =>({
+              tabBarIcon: ({ focused, color, size }) => {
+                let iconName = ''; // Assign empty here to make compiler shut up
+
+                // Using 'solid' for focused and 'regular' for unfocused requires a pro license (I ain't got the money) 
+                if (route.name === 'Home') {
+                  iconName = 'house';
+                } else if (route.name === 'Einstellungen') {
+                  iconName = 'gear';
+                } else if(route.name === 'Fächer'){
+                  iconName = 'bars';
+                }
+
+                return <FontAwesome6 name={iconName as any} size={size} color={color} iconStyle='solid'/>;
+              },
               tabBarStyle: { backgroundColor: colors.navbarColor },
               tabBarActiveTintColor: colors.navitemActiveColor,
               tabBarInactiveTintColor: colors.navitemInactiveColor,
               headerShown: false,
               tabBarButton: (props) => ( <PlatformPressable {...props} android_ripple={{ color: 'transparent' }}/> ), // Disable the ripple effect on android
-            }}
+              tabBarLabelPosition: 'below-icon',
+              tabBarPosition: 'bottom',
+            })}
             initialRouteName='Home'
             >
           <Tab.Screen name="Einstellungen" component={SettingsScreen}/>
