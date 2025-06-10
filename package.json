@@ -20,6 +20,7 @@
     "react-native-bootsplash": "^6.3.8",
     "react-native-gesture-handler": "^2.25.0",
     "react-native-keep-awake": "^4.0.0",
+    "react-native-mmkv": "^3.2.0",
     "react-native-navigation-bar-color": "^2.0.2",
     "react-native-pager-view": "^6.8.1",
     "react-native-reanimated": "^3.18.0",
@@ -31,6 +32,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
+    "@babel/plugin-transform-class-static-block": "^7.27.1",
     "@babel/preset-env": "^7.25.3",
     "@babel/runtime": "^7.25.0",
     "@react-native-community/cli": "18.0.0",

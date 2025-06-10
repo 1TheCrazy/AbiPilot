@@ -10,11 +10,12 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { useTheme } from "../ThemeProvider";
+import { Client } from "../../client/SaveSystem"
 
 type Theme = 'light' | 'dark' | 'system';
 
 export const ThemeToggle = () =>{
-    const [stateTheme, setScheme] = useState<Theme>('system');
+    const [stateTheme, setScheme] = useState<Theme>(Client.settings.theme);
     const { colors, setTheme } = useTheme();
     const { width } = useWindowDimensions();
     const translateX = useSharedValue(0); 
@@ -56,10 +57,12 @@ export const ThemeToggle = () =>{
           translateX.value = withSpring((CONTAINER_WIDTH / 3) * 2, springConfig);
         }
       }, 
-    [stateTheme]);
+    [stateTheme, colors]);
 
     const setThemeInternal = (theme: Theme) => {
       setScheme(theme);
+
+      Client.settings.theme = theme;
 
       if(theme === 'system'){
         if(sysScheme){
