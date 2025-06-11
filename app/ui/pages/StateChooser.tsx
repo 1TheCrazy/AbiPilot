@@ -12,7 +12,7 @@ type SetupNav = NativeStackNavigationProp<Routes, 'chooseState'>;
 
 const StateChooseScreen: React.FC<{ inStartupFlow: boolean }> = ({ inStartupFlow }) => {
     const { colors } = useTheme();
-    const screenHeight = Dimensions.get('window').height;
+    const screenHeight = Dimensions.get('screen').height;
     // Wrap in try block to not crash when we call this with inStartupFlow = false.
     // We assume no misuse with inStartupFlow = false if component is instantiated from outside
     let navigation: any;

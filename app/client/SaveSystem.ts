@@ -14,6 +14,8 @@ export class Client{
 
     // Static initializer
     static {
+        Client._storage.clearAll();
+        
         const settingsResult = Client._storage.getString('settings');
         const startupResult = Client._storage.getBoolean('isInitialStartup');
 
