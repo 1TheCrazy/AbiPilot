@@ -25,7 +25,7 @@ export const StartupScreen: React.FC<{onComplete: any}> = ({ onComplete }) => {
                 <Stack.Navigator screenOptions={{headerShown: false}}>
                     <Stack.Screen name="welcome" component={WelcomeScreen}/>
                     <Stack.Screen name="chooseState">
-                        {() => <StateChooseScreen inStartupFlow={true} />} 
+                        {() => <StateChooseScreen inStartupFlow={false} />} 
                     </Stack.Screen>
                     <Stack.Screen name="finishSetup">
                         {() => <SetupCompleteScreen onComplete={onComplete}/>}

@@ -19,6 +19,7 @@ const themes = {
     hrColor: '#ccc',
     transparentAccent: 'rgba(255, 255, 255, 0.25)',
     highlightBlue: 'rgb(85, 142, 248)',
+    infoYellow: 'rgb(153, 155, 54)',
   },
   light: {
     /* Fill with actual light styles */
@@ -32,6 +33,7 @@ const themes = {
     hrColor: '#ccc',
     transparentAccent: 'rgba(255, 255, 255, 0.6)',
     highlightBlue: 'rgb(0, 41, 117)',
+    infoYellow: 'rgb(153, 155, 54)',
   },
 };
 
