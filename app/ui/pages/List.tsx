@@ -6,7 +6,7 @@ import { useTheme } from '../ThemeProvider';
 import { Heading } from '../components/Heading';
 import { CourseCard } from '../components/CourseCard';
 
-export default function ListScreen() {
+const ListScreen = () => {
   const { colors } = useTheme();
   const screenHeight = Dimensions.get('window').height;
 
@@ -22,3 +22,5 @@ export default function ListScreen() {
     </SafeAreaView>
   );
 }
+
+export default ListScreen;

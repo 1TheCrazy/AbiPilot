@@ -5,14 +5,14 @@ import { PlatformPressable } from '@react-navigation/elements'
 import BootSplash from "react-native-bootsplash";
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 
-import SettingsScreen from '../pages/Settings';
-import HomeScreen from '../pages/Home';
-import ListScreen from '../pages/List';
-import { ThemeProvider, useTheme, ThemeType } from '../ThemeProvider';
+import SettingsScreen from './pages/Settings';
+import HomeScreen from './pages/Home';
+import ListScreen from './pages/List';
+import { ThemeProvider, useTheme, ThemeType } from './ThemeProvider';
 
 const Tab = createBottomTabNavigator();
 
-export default function ThemedApp(){
+const ThemedApp = () =>{
 
   const { colors } = useTheme();
 
@@ -57,3 +57,5 @@ export default function ThemedApp(){
       </ThemeProvider>
     )
 }
+
+export default ThemedApp;

@@ -7,7 +7,7 @@ import { CourseCard } from '../components/CourseCard';
 import { useTheme } from '../ThemeProvider';
 import { Heading } from '../components/Heading';
 
-export default function HomeScreen() {
+const HomeScreen = () => {
   const { colors } = useTheme();
   const screenHeight = Dimensions.get('window').height;
 
@@ -20,3 +20,5 @@ export default function HomeScreen() {
     </SafeAreaView>
   );
 }
+
+export default HomeScreen;
