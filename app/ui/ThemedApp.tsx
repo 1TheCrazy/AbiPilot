@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { PlatformPressable } from '@react-navigation/elements'
-import BootSplash from "react-native-bootsplash";
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 
 import SettingsScreen from './pages/Settings';
@@ -18,10 +17,7 @@ const ThemedApp = () =>{
 
     return(
       <ThemeProvider>
-        <NavigationContainer
-          onReady={() => {
-            BootSplash.hide({fade: true}); // Hide SplashScreen
-          }}>
+        <NavigationContainer>
           <Tab.Navigator 
           backBehavior='history'
             screenOptions={({route}) =>({
