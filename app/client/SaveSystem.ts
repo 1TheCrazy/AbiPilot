@@ -13,9 +13,7 @@ export class Client{
     private static defaultSettings = { theme: 'system' as Theme }
 
     // Static initializer
-    static {
-        Client._storage.clearAll();
-        
+    static {        
         const settingsResult = Client._storage.getString('settings');
         const startupResult = Client._storage.getBoolean('isInitialStartup');
 
