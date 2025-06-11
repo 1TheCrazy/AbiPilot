@@ -51,11 +51,6 @@ const styles = StyleSheet.create({
         fontSize: 23,
         paddingTop: 20,
     },
-    smallText: {
-        fontSize: 15,
-        paddingTop: 30,
-        paddingBottom: 80,
-    },
     button: {
         borderWidth: 4,
         justifyContent: 'center',
