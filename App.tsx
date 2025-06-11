@@ -8,6 +8,7 @@ import BootSplash from "react-native-bootsplash";
 import ThemedApp from './app/ui/ThemedApp';
 import { Client } from './app/client/SaveSystem';
 import StartupScreen from './app/ui/StartUpScreen';
+import { ThemeProvider } from './app/ui/ThemeProvider';
 
 export default function App(){
   const [isInitialStartup, setInitialStartup] = useState(Client.isInitialStartup);
@@ -23,12 +24,20 @@ export default function App(){
 
   // Return a 'first startup screen' if we booted the app for the first time
   if(isInitialStartup){
-    return(<StartupScreen onComplete={() =>{
-      Client.isInitialStartup = false;
-      setInitialStartup(false); // Trigger a Rerender
-    }}/>)
+    return(
+      <ThemeProvider>
+        <StartupScreen onComplete={() =>{
+          Client.isInitialStartup = false;
+          setInitialStartup(false); // Trigger a Rerender
+        }}/>
+      </ThemeProvider>
+    )
   }
 
-  return ( <ThemedApp/> );
+  return (
+    <ThemeProvider>
+      <ThemedApp/> 
+    </ThemeProvider> 
+  );
 }
 

@@ -22,16 +22,15 @@ const themes = {
     infoYellow: 'rgb(153, 155, 54)',
   },
   light: {
-    /* Fill with actual light styles */
-    backgroundColor: 'rgb(6, 6, 143)',
-    navbarColor: 'rgb(10, 10, 129)',
-    navitemActiveColor: 'rgb(185, 11, 11)',
-    navitemInactiveColor: 'rgb(201, 81, 81)',
-    fontColor: 'rgb(66, 16, 16)',
-    lightFontColor: 'rgb(223, 223, 223)',
+    backgroundColor: 'rgb(170, 174, 190)',
+    navbarColor: 'rgb(147, 150, 165)',
+    navitemActiveColor: 'rgb(44, 44, 44)',
+    navitemInactiveColor: 'rgb(100, 100, 100)',
+    fontColor: 'rgb(27, 27, 27)',
+    lightFontColor: 'rgb(66, 66, 66)',
     courseCardBorderColor: '#aaa',
-    hrColor: '#ccc',
-    transparentAccent: 'rgba(255, 255, 255, 0.6)',
+    hrColor: 'rgb(24, 24, 24)',
+    transparentAccent: 'rgba(68, 68, 68, 0.6)',
     highlightBlue: 'rgb(0, 41, 117)',
     infoYellow: 'rgb(153, 155, 54)',
   },
@@ -54,7 +53,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     // Set icon style for nav items on android
-    changeNavigationBarColor('transparent', theme ==='dark' ? false : true);
+    changeNavigationBarColor('transparent', theme ==='dark' ? false : true); // This doesn't seem to work consistently if theme is changed rapidly (mainly only works on startup)
     StatusBar.setBarStyle(theme === 'dark' ? 'light-content' : 'dark-content');
   }, [theme])
 
