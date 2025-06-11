@@ -1,5 +1,7 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { useColorScheme } from 'react-native';
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
+import { StatusBar } from 'react-native';
 
 import { Client } from "../client/SaveSystem"
 
@@ -12,9 +14,12 @@ const themes = {
     navitemActiveColor: 'rgb(255, 255, 255)',
     navitemInactiveColor: 'rgb(112, 112, 112)',
     fontColor: 'rgb(223, 223, 223)',
+    lightFontColor: 'rgb(139, 134, 151)',
     courseCardBorderColor: '#aaa',
     hrColor: '#ccc',
-    transparentAccent: 'rgba(255, 255, 255, 0.25)'
+    transparentAccent: 'rgba(255, 255, 255, 0.25)',
+    highlightBlue: 'rgb(85, 142, 248)',
+    infoYellow: 'rgb(153, 155, 54)',
   },
   light: {
     /* Fill with actual light styles */
@@ -23,9 +28,12 @@ const themes = {
     navitemActiveColor: 'rgb(185, 11, 11)',
     navitemInactiveColor: 'rgb(201, 81, 81)',
     fontColor: 'rgb(66, 16, 16)',
+    lightFontColor: 'rgb(223, 223, 223)',
     courseCardBorderColor: '#aaa',
     hrColor: '#ccc',
-    transparentAccent: 'rgba(255, 255, 255, 0.6)'
+    transparentAccent: 'rgba(255, 255, 255, 0.6)',
+    highlightBlue: 'rgb(0, 41, 117)',
+    infoYellow: 'rgb(153, 155, 54)',
   },
 };
 
@@ -43,6 +51,12 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   sysTheme = sysTheme ? sysTheme : 'dark';
 
   const [theme, setTheme] = useState<Theme>(Client.settings.theme == 'system' ?  sysTheme : Client.settings.theme);
+
+  useEffect(() => {
+    // Set icon style for nav items on android
+    changeNavigationBarColor('transparent', theme ==='dark' ? false : true);
+    StatusBar.setBarStyle(theme === 'dark' ? 'light-content' : 'dark-content');
+  }, [theme])
 
   return (
     <ThemeContext.Provider value={{ colors: themes[theme], setTheme }}>

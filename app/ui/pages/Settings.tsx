@@ -6,7 +6,7 @@ import { useTheme } from '../ThemeProvider';
 import { Heading } from '../components/Heading';
 import { ThemeToggle } from '../components/ThemeToggle';
 
-export default function SettingsScreen() {
+const SettingsScreen = () => {
   const { colors, setTheme } = useTheme();
   const screenHeight = Dimensions.get('window').height;
 
@@ -33,3 +33,5 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     }
 });
+
+export default SettingsScreen;

@@ -7,20 +7,22 @@ type Settings = { theme: Theme, }
 export class Client{
     private static _storage = new MMKV();
     private static _settings: Settings;
-    
+    private static _isInitialStartup: boolean;
+
     // Default values
     private static defaultSettings = { theme: 'system' as Theme }
 
     // Static initializer
-    static {
+    static {        
         const settingsResult = Client._storage.getString('settings');
-        console.log(`save: ${settingsResult}`);
+        const startupResult = Client._storage.getBoolean('isInitialStartup');
+
         this._settings = settingsResult != undefined ? JSON.parse(settingsResult) : this.defaultSettings;
+        this._isInitialStartup = startupResult != undefined ? startupResult : true;
     }
 
     static settings = new Proxy<Settings>(this._settings, {
         get(target, prop, receiver){
-            console.log(`want to get ${prop.toString()}`);
             return Reflect.get(target, prop, receiver);
         },
         set(target, prop, value, receiver) {
@@ -36,4 +38,14 @@ export class Client{
             return Reflect.set(target, prop, value, receiver);
         }
     });
+
+    
+    static get isInitialStartup() : boolean {
+        return this._isInitialStartup;
+    }
+    
+    static set isInitialStartup(value: boolean) {
+        this._isInitialStartup = value;
+        this._storage.set('isInitialStartup', value);
+    }
 }
