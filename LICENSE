@@ -1,0 +1,41 @@
+Strict Personal-Use Source License
+
+Copyright (c) 2025 Richard Badouin
+
+This source code ("Software") is provided under the following terms and conditions. By accessing, downloading, compiling, modifying, or otherwise using the Software, you ("the User") agree to be bound by this license.
+
+1. Permitted Use:
+   - The User may view, compile, and modify the Software exclusively for private, personal, and non-commercial purposes.
+   - The User may submit modifications or contributions (e.g. pull requests) directly to the original repository, provided they do not redistribute the Software.
+
+2. Prohibited Use:
+   - Redistribution of the Software in **any form** is strictly prohibited, including but not limited to:
+     - Sharing source code or compiled binaries
+     - Uploading to public or private repositories
+     - Embedding in other software
+     - Including as part of educational materials, packages, or online content
+     - Making available for download or viewing
+     - Sharing via any platform or medium, even for free
+
+3. Prohibition on Code Reuse:
+   - No part of the Software — including individual files, functions, code snippets, assets, or configurations — may be reused in any other software project, whether personal, non-commercial, commercial, open-source, or closed-source.
+   - The Software may not be used as a template, base, or reference for other projects.
+
+4. Commercial Distribution:
+   - Authorized commercial versions of this Software may be made available separately (e.g. via Google Play or other platforms). This license does not grant any rights to distribute or monetize the Software.
+
+5. Contributions:
+   - The User may submit modifications or enhancements (e.g. via pull requests) solely for consideration and inclusion in the original repository.
+   - Submission of a pull request does not grant any additional distribution or reuse rights to the contributor.
+
+6. Termination:
+   - Any violation of this license immediately and automatically terminates all granted rights. The User must delete all copies, including modified versions, upon termination.
+
+7. Disclaimer:
+   - THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. USE AT YOUR OWN RISK.
+
+8. Caffeine Compliance:
+   - Users are strongly encouraged (though not legally required) to consume an appropriate amount of caffeine when compiling this Software. Failure to do so may result in undefined behavior, including but not limited to: typos, rage-quitting, spontaneous existential dread, or writing JavaScript by accident.
+   - Use of decaf is permitted but discouraged. You know what you did.
+
+This license applies only to the source code and assets found in this repository. It does not apply to any distributed binaries or products provided through authorized platforms.
