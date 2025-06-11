@@ -15,11 +15,10 @@ const ThemedApp = () =>{
 
   const { colors } = useTheme();
 
-    return(
-      <ThemeProvider>
-        <NavigationContainer>
+  return(
+    <NavigationContainer>
           <Tab.Navigator 
-          backBehavior='history'
+            backBehavior='history'
             screenOptions={({route}) =>({
               tabBarIcon: ({ focused, color, size }) => {
                 let iconName = ''; // Assign empty here to make compiler shut up
@@ -49,9 +48,8 @@ const ThemedApp = () =>{
           <Tab.Screen name="Home" component={HomeScreen} />
           <Tab.Screen name="Fächer" component={ListScreen} />
           </Tab.Navigator>
-        </NavigationContainer>
-      </ThemeProvider>
-    )
+        </NavigationContainer>      
+  )
 }
 
 export default ThemedApp;

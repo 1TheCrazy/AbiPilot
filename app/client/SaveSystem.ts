@@ -13,12 +13,12 @@ export class Client{
     private static defaultSettings = { theme: 'system' as Theme }
 
     // Static initializer
-    static {        
+    static {
         const settingsResult = Client._storage.getString('settings');
         const startupResult = Client._storage.getBoolean('isInitialStartup');
 
         this._settings = settingsResult != undefined ? JSON.parse(settingsResult) : this.defaultSettings;
-        this._isInitialStartup = startupResult != undefined ? startupResult : true;
+        this._isInitialStartup = true;//startupResult != undefined ? startupResult : true;
     }
 
     static settings = new Proxy<Settings>(this._settings, {

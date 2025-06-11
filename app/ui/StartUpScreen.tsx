@@ -20,8 +20,7 @@ export const StartupScreen: React.FC<{onComplete: any}> = ({ onComplete }) => {
     const { colors } = useTheme();
     
     return(
-        <ThemeProvider>
-            <NavigationContainer>
+        <NavigationContainer>
                 <Stack.Navigator screenOptions={{headerShown: false}}>
                     <Stack.Screen name="welcome" component={WelcomeScreen}/>
                     <Stack.Screen name="chooseState">
@@ -32,7 +31,6 @@ export const StartupScreen: React.FC<{onComplete: any}> = ({ onComplete }) => {
                     </Stack.Screen>
                 </Stack.Navigator>
             </NavigationContainer>
-        </ThemeProvider>
     );
 }
 
