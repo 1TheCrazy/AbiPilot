@@ -23,7 +23,7 @@ const ThemedApp = () =>{
               tabBarIcon: ({ focused, color, size }) => {
                 let iconName = ''; // Assign empty here to make compiler shut up
 
-                // Using 'solid' for focused and 'regular' for unfocused requires a pro license (I ain't got the money) 
+                // Using 'solid' for focused and 'regular' for unfocused requires a pro license (I ain't got the money) so we'll be using solid for both
                 if (route.name === 'Home') {
                   iconName = 'house';
                 } else if (route.name === 'Einstellungen') {
@@ -34,7 +34,7 @@ const ThemedApp = () =>{
 
                 return <FontAwesome6 name={iconName as any} size={size} color={color} iconStyle='solid'/>;
               },
-              tabBarStyle: { backgroundColor: colors.navbarColor },
+              tabBarStyle: { backgroundColor: colors.navbarColor, borderTopWidth: 0 },
               tabBarActiveTintColor: colors.navitemActiveColor,
               tabBarInactiveTintColor: colors.navitemInactiveColor,
               headerShown: false,

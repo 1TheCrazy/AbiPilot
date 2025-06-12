@@ -28,7 +28,7 @@ const themes = {
     navitemInactiveColor: 'rgb(100, 100, 100)',
     fontColor: 'rgb(27, 27, 27)',
     lightFontColor: 'rgb(66, 66, 66)',
-    courseCardBorderColor: '#aaa',
+    courseCardBorderColor: 'rgb(32, 32, 32)',
     hrColor: 'rgb(24, 24, 24)',
     transparentAccent: 'rgba(68, 68, 68, 0.6)',
     highlightBlue: 'rgb(0, 41, 117)',
