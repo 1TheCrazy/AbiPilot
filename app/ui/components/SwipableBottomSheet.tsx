@@ -110,7 +110,7 @@ const SwipableBottomSheet: React.FC<{ children: React.ReactNode, viewHeight: num
         alignSelf: 'center',
         borderRadius: 10,
         padding: 10,
-        backgroundColor: 'white', /*add real color to theme provider*/
+        backgroundColor: colors.bottomSheetColor,
         width: screenWidth - 8 * 2, // Smaller padding 
         height: viewHeight,
         position: 'absolute',
@@ -122,7 +122,7 @@ const SwipableBottomSheet: React.FC<{ children: React.ReactNode, viewHeight: num
         borderRadius: 10,
         width: 30,
         alignSelf: 'center',
-        backgroundColor: 'black'/*use real color (like hr)*/
+        backgroundColor: colors.hrColor
     }
 });
     return(

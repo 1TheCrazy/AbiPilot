@@ -15,7 +15,7 @@ const Backdrop: React.FC<{ closeCallback: any }> = ({ closeCallback }) => {
 
             <BlurView
             style={StyleSheet.absoluteFill}
-            blurType={Theme === 'dark' ? 'light' : 'dark'}
+            blurType={'dark'}
             blurAmount={2}
             />
         </Pressable>

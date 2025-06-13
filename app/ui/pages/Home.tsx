@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { CourseCard } from '../components/CourseCard';
 import { useTheme } from '../ThemeProvider';
 import { Heading } from '../components/Heading';
+import SwipableBottomSheet from '../components/SwipableBottomSheet';
 
 const HomeScreen = () => {
   const { colors } = useTheme();
@@ -17,6 +18,9 @@ const HomeScreen = () => {
             padding: 16,
             minHeight: screenHeight,
         }}>
+          <SwipableBottomSheet viewHeight={100} closeCallback={() => {}}>
+            <Text>HELLo</Text>
+          </SwipableBottomSheet>
     </SafeAreaView>
   );
 }
