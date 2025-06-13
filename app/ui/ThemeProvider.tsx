@@ -49,12 +49,17 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   let sysTheme = useColorScheme();
   sysTheme = sysTheme ? sysTheme : 'dark';
 
+  // Init on Startup
   const [theme, setTheme] = useState<Theme>(Client.settings.theme == 'system' ?  sysTheme : Client.settings.theme);
+  Theme = theme;
 
+  // When theme updates
   useEffect(() => {
     // Set icon style for nav items on android
     changeNavigationBarColor('transparent', theme ==='dark' ? false : true); // This doesn't seem to work consistently if theme is changed rapidly (mainly only works on startup)
     StatusBar.setBarStyle(theme === 'dark' ? 'light-content' : 'dark-content');
+
+    Theme = theme;
   }, [theme])
 
   return (
@@ -68,3 +73,5 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 export const useTheme = () => useContext(ThemeContext);
 
 export type ThemeType = typeof themes.dark;
+
+export let Theme: Theme;

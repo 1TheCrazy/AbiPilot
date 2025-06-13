@@ -9,6 +9,7 @@ import ThemedApp from './app/ui/ThemedApp';
 import { Client } from './app/client/SaveSystem';
 import StartupScreen from './app/ui/StartUpScreen';
 import { ThemeProvider } from './app/ui/ThemeProvider';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App(){
   const [isInitialStartup, setInitialStartup] = useState(Client.isInitialStartup);
@@ -35,9 +36,11 @@ export default function App(){
   }
 
   return (
-    <ThemeProvider>
-      <ThemedApp/> 
-    </ThemeProvider> 
+    <GestureHandlerRootView>
+      <ThemeProvider>
+        <ThemedApp/> 
+      </ThemeProvider> 
+    </GestureHandlerRootView>
   );
 }
 
