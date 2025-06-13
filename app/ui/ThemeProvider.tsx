@@ -20,6 +20,7 @@ const themes = {
     transparentAccent: 'rgba(255, 255, 255, 0.25)',
     highlightBlue: 'rgb(85, 142, 248)',
     infoYellow: 'rgb(153, 155, 54)',
+    bottomSheetColor: 'rgb(131, 131, 131)',
   },
   light: {
     backgroundColor: 'rgb(170, 174, 190)',
@@ -28,11 +29,12 @@ const themes = {
     navitemInactiveColor: 'rgb(100, 100, 100)',
     fontColor: 'rgb(27, 27, 27)',
     lightFontColor: 'rgb(66, 66, 66)',
-    courseCardBorderColor: '#aaa',
+    courseCardBorderColor: 'rgb(32, 32, 32)',
     hrColor: 'rgb(24, 24, 24)',
     transparentAccent: 'rgba(68, 68, 68, 0.6)',
     highlightBlue: 'rgb(0, 41, 117)',
     infoYellow: 'rgb(153, 155, 54)',
+    bottomSheetColor: 'rgb(163, 163, 163)',
   },
 };
 
@@ -49,12 +51,17 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   let sysTheme = useColorScheme();
   sysTheme = sysTheme ? sysTheme : 'dark';
 
+  // Init on Startup
   const [theme, setTheme] = useState<Theme>(Client.settings.theme == 'system' ?  sysTheme : Client.settings.theme);
+  Theme = theme;
 
+  // When theme updates
   useEffect(() => {
     // Set icon style for nav items on android
     changeNavigationBarColor('transparent', theme ==='dark' ? false : true); // This doesn't seem to work consistently if theme is changed rapidly (mainly only works on startup)
     StatusBar.setBarStyle(theme === 'dark' ? 'light-content' : 'dark-content');
+
+    Theme = theme;
   }, [theme])
 
   return (
@@ -68,3 +75,5 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 export const useTheme = () => useContext(ThemeContext);
 
 export type ThemeType = typeof themes.dark;
+
+export let Theme: Theme;

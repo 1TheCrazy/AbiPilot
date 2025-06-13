@@ -18,7 +18,7 @@ export class Client{
         const startupResult = Client._storage.getBoolean('isInitialStartup');
 
         this._settings = settingsResult != undefined ? JSON.parse(settingsResult) : this.defaultSettings;
-        this._isInitialStartup = true;//startupResult != undefined ? startupResult : true;
+        this._isInitialStartup = startupResult != undefined ? startupResult : true;
     }
 
     static settings = new Proxy<Settings>(this._settings, {
