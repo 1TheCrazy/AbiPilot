@@ -20,7 +20,7 @@ const themes = {
     transparentAccent: 'rgba(255, 255, 255, 0.25)',
     highlightBlue: 'rgb(85, 142, 248)',
     infoYellow: 'rgb(153, 155, 54)',
-    bottomSheetColor: 'rgb(131, 131, 131)',
+    bottomSheetColor: 'rgb(99, 99, 99)',
   },
   light: {
     backgroundColor: 'rgb(170, 174, 190)',
