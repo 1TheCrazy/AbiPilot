@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 // Actually expected better slider than this, kinda disappointed (can't even controll thickness of slider)
 import Slider from '@react-native-community/slider';
 
-import UserCourse from '../../client/static/UserCourse';
+import UserCourse from '../../client/static/interfaces/UserCourse';
 import { useTheme } from '../ThemeProvider';
 import { PanGestureContext } from './SwipableBottomSheet';
 
