@@ -7,7 +7,7 @@ export default abstract class ManagedCourse implements UserCourse {
     protected _isLK: boolean;
     protected _isWrittenExamCourse: boolean;
     protected _isOralExamCourse: boolean;
-    protected _writtenWeightPercentage: number;
+    protected _writtenWeightPercantage: number;
     protected _exams: Exam[];
     protected _takesPartInQuarters: boolean[];
 
@@ -28,7 +28,7 @@ export default abstract class ManagedCourse implements UserCourse {
         this._isLK = isLK;
         this._isWrittenExamCourse = isLK;
         this._isOralExamCourse = isOralExamCourse;
-        this._writtenWeightPercentage = 50;
+        this._writtenWeightPercantage = 50;
         this._exams = [];
         this._takesPartInQuarters = takesPartInQuarters;
     }
@@ -69,10 +69,10 @@ export default abstract class ManagedCourse implements UserCourse {
     }
     get isOralExamCourse(): boolean { return this._isOralExamCourse}
 
-    set writtenWeightPercentage(value: number){
-        this._writtenWeightPercentage = value;
+    set writtenWeightPercantage(value: number){
+        this._writtenWeightPercantage = value;
     }
-    get writtenWeightPercantage(): number { return this._writtenWeightPercentage}
+    get writtenWeightPercantage(): number { return this._writtenWeightPercantage}
 
     get isWrittenExamCourse(): boolean { return this._isLK}
 

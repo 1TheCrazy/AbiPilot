@@ -3,8 +3,7 @@ import { Pressable, StyleSheet, View } from 'react-native'
 import Animated, { interpolateColor, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import { useTheme } from '../ThemeProvider';
 
-const Togglebox: React.FC<{ initialValue: boolean, onChangeCallback: (value: boolean) => void }> = ({ initialValue, onChangeCallback }) => {
-    const [value, setValue] = useState(initialValue);
+const Togglebox: React.FC<{ state: boolean, setState: (value: boolean) => void}> = ({ state, setState }) => {
     const SWITCH_WIDTH = 70;
     const xTransform = useSharedValue(0);
     const animationProgress = useSharedValue(0);
@@ -17,8 +16,8 @@ const Togglebox: React.FC<{ initialValue: boolean, onChangeCallback: (value: boo
             mass: 1,
         }
 
-        animationProgress.value = withSpring(value ? 1 : 0, springConfig)  
-    }, [value]);
+        animationProgress.value = withSpring(state ? 1 : 0, springConfig);
+    }, [state]);
 
     // Transofrm animation for handle
     const handleAnimationStyle = useAnimatedStyle(() => ({
@@ -63,7 +62,7 @@ const Togglebox: React.FC<{ initialValue: boolean, onChangeCallback: (value: boo
     });
 
     return(
-        <Pressable style={styles.pressable} onPress={() => { setValue(!value); }}>
+        <Pressable style={styles.pressable} onPress={() => { setState(!state); }}>
             <Animated.View style={[styles.switch, switchAnimationStyle]}>
                 <Animated.View style={[styles.handle, handleAnimationStyle]}/>
             </Animated.View>

@@ -4,14 +4,9 @@ import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 
 import { useTheme } from '../ThemeProvider';
 
-interface HeadingProps {
-    text: string,
-    onRenameCallback: (input: string) => void
-}
-
-export const EditableHeading: React.FC<HeadingProps> = ({text, onRenameCallback}) => {
+export const EditableHeading: React.FC<{text: string, setText: (value: string) => void}> = ({text, setText}) => {
     const { colors } = useTheme();
-    const [stateText, setText] = useState(text);
+    const [intermediateText, setIntermediateText] = useState(text);
     const ref = useRef<TextInput>(null);
 
     const styles = StyleSheet.create({
@@ -51,9 +46,9 @@ export const EditableHeading: React.FC<HeadingProps> = ({text, onRenameCallback}
             </Pressable>
             <TextInput 
                 style={styles.text} 
-                value={stateText} 
-                onChangeText={setText}
-                onEndEditing={() => onRenameCallback(stateText)}
+                value={text} 
+                onChangeText={setIntermediateText}
+                onEndEditing={() => setText(intermediateText)}
                 ref={ref}
                 multiline={false}
                 maxLength={50}

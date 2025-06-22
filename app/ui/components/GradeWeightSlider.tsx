@@ -3,13 +3,13 @@ import { View, Text, StyleSheet } from 'react-native';
 // Actually expected better slider than this, kinda disappointed (can't even controll thickness of slider)
 import Slider from '@react-native-community/slider';
 
-import UserCourse from '../../client/static/interfaces/UserCourse';
 import { useTheme } from '../ThemeProvider';
 import { PanGestureContext } from './SwipableBottomSheet';
+import ManagedCourse from '../../client/static/implemented/ManagedCourse';
 
-export const GradeWeightSlider: React.FC<{course: UserCourse, onWeightChangeCallback: (value: number) => void }> = ({course, onWeightChangeCallback}) => {
+export const GradeWeightSlider: React.FC<{course: ManagedCourse, onWeightChangeCallback: (value: number) => void }> = ({course, onWeightChangeCallback}) => {
     const { colors } = useTheme();
-    const [ value, setValue ] = useState(course.writtenWeightPercentage);
+    const [ value, setValue ] = useState(course.writtenWeightPercantage);
     const { setEnabled } = useContext(PanGestureContext);
 
     const styles = StyleSheet.create({
