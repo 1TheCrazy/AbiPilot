@@ -45,6 +45,5 @@ describe('ManagedCourse', () => {
         expect(obj.canUserChange.takesPartInQuarters).toBe(false);
         expect(obj.takesPartInQuarters).toEqual([true, true, true, true]);
         expect(obj.isOralExamCourse).toBe(true);
-        expect(obj.isWrittenExamCourse).toBe(false);
     });
 })

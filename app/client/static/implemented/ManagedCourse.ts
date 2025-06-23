@@ -60,8 +60,6 @@ export default abstract class ManagedCourse implements UserCourse {
     get takesPartInQuarters(): boolean[] { return this._takesPartInQuarters}
 
     set isOralExamCourse(is: boolean){
-        this.isLK = false;
-        
         this._isOralExamCourse = is;
         this._takesPartInQuarters = [true, true, true, true]
     }
