@@ -5,7 +5,6 @@ import UserCourse from "../interfaces/UserCourse";
 export default abstract class ManagedCourse implements UserCourse {
     protected _course: Course;
     protected _isLK: boolean;
-    protected _isWrittenExamCourse: boolean;
     protected _isOralExamCourse: boolean;
     protected _writtenWeightPercantage: number;
     protected _exams: Exam[];
@@ -26,7 +25,6 @@ export default abstract class ManagedCourse implements UserCourse {
     constructor(course: Course, isLK: boolean, isOralExamCourse: boolean, takesPartInQuarters: boolean[]){
         this._course = course;
         this._isLK = isLK;
-        this._isWrittenExamCourse = isLK;
         this._isOralExamCourse = isOralExamCourse;
         this._writtenWeightPercantage = 50;
         this._exams = [];
@@ -38,12 +36,10 @@ export default abstract class ManagedCourse implements UserCourse {
         if(isLK){
             this._isLK = true;
             this._takesPartInQuarters = [true, true, true, true];
-            this._isWrittenExamCourse = true;
             this._isOralExamCourse = false;
         }
         else{
             this._isLK = false;
-            this._isWrittenExamCourse = false;
         }
     }
     get isLK() : boolean { return this._isLK}
@@ -64,6 +60,8 @@ export default abstract class ManagedCourse implements UserCourse {
     get takesPartInQuarters(): boolean[] { return this._takesPartInQuarters}
 
     set isOralExamCourse(is: boolean){
+        this.isLK = false;
+        
         this._isOralExamCourse = is;
         this._takesPartInQuarters = [true, true, true, true]
     }
