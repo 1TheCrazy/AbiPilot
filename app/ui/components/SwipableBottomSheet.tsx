@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { Dimensions, Modal, StyleSheet, View, } from 'react-native';
 import { useTheme } from '../ThemeProvider';
 import { Gesture, GestureDetector, GestureHandlerRootView, } from 'react-native-gesture-handler';
 import Animated, { cancelAnimation, runOnJS, useAnimatedStyle, useSharedValue, withDecay, withSpring } from 'react-native-reanimated';
+
 import Backdrop from './Backdrop';
 
 // Didn't know there were fucking managed bottom sheets like @gorhom/bottom-sheet, so I spent hours writing this
-const SwipableBottomSheet: React.FC<{ children: React.ReactNode, viewHeight: number, closeCallback: any }> = ({ children, viewHeight, closeCallback }) => {
+export const SwipableBottomSheet: React.FC<{ children: React.ReactNode, viewHeight: number, closeCallback: any }> = ({ children, viewHeight, closeCallback }) => {
     const { colors } = useTheme();
     const screenWidth = Dimensions.get('screen').width;
 
@@ -14,7 +15,10 @@ const SwipableBottomSheet: React.FC<{ children: React.ReactNode, viewHeight: num
     const open = viewHeight * 0.6;
     const close = 10;
     const yPan = useSharedValue(open);
-    const endLastGesture = useSharedValue(yPan.value); 
+    const endLastGesture = useSharedValue(yPan.value);
+    
+    // For PanGestureProvider
+    const [enabled, setEnabled] = useState(true);
 
     const closeAnim = () => {
         yPan.value = withSpring(-100, {
@@ -76,7 +80,7 @@ const SwipableBottomSheet: React.FC<{ children: React.ReactNode, viewHeight: num
         const velocity = -event.velocityY;
 
         // Continue with momentum
-        if(Math.abs(velocity) > 500){
+        if(Math.abs(velocity) > 500 && yPan.value < maxPan){
             const anim = (withCallback: boolean) => withDecay({
                     // Make it easier to close the sheet than to fully open it
                     velocity: velocity > 0 ? velocity * 0.3 : velocity * 0.4,
@@ -99,6 +103,7 @@ const SwipableBottomSheet: React.FC<{ children: React.ReactNode, viewHeight: num
             endLastGesture.value = Math.min(yPan.value, maxPan);
         }
     })
+    .enabled(enabled)
     ;
 
     const panStyle = useAnimatedStyle(() => ({
@@ -127,15 +132,18 @@ const SwipableBottomSheet: React.FC<{ children: React.ReactNode, viewHeight: num
 });
     return(
         <>
-            <Backdrop closeCallback={() => closeAnim()}/>
-            <GestureDetector gesture={pan}>
-                <Animated.View style={[styles.container, panStyle]}>
-                    <View style={styles.bar}></View>
-                    { children }
-                </Animated.View>
-            </GestureDetector>
+            { /* Make Pan gesture available to children, in order to disable it when interacting with components that need it disabled */}
+            <PanGestureContext.Provider value={{enabled, setEnabled}}>
+                <Backdrop closeCallback={() => closeAnim()}/>
+                <GestureDetector gesture={pan}>
+                    <Animated.View style={[styles.container, panStyle]}>
+                        <View style={styles.bar}></View>
+                        { children }
+                    </Animated.View>
+                </GestureDetector>
+            </PanGestureContext.Provider>
         </>
     )
 }
 
-export default SwipableBottomSheet;
+export const PanGestureContext = createContext({enabled: true, setEnabled: (val: boolean) => {}});

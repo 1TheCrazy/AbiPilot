@@ -29,7 +29,7 @@ export default function App(){
       <ThemeProvider>
         <StartupScreen onComplete={() =>{
           Client.isInitialStartup = false;
-          setInitialStartup(false); // Trigger a Rerender
+          setInitialStartup(false); // Trigger a Rerender to go into the normal app screen
         }}/>
       </ThemeProvider>
     )
