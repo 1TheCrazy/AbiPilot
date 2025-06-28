@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import Course from "../interfaces/Course";
 import Exam from "../interfaces/Exam";
 import UserCourse from "../interfaces/UserCourse";
@@ -22,13 +23,19 @@ export default abstract class ManagedCourse implements UserCourse {
         get isWrittenExamCourse(): boolean { return false; },
     }
 
-    constructor(course: Course, isLK: boolean, isOralExamCourse: boolean, takesPartInQuarters: boolean[]){
+    constructor(course: Course, isLK: boolean, isOralExamCourse: boolean, takesPartInQuarters: boolean[], exams: Exam[], writtenWeightPerc: number){
         this._course = course;
         this._isLK = isLK;
         this._isOralExamCourse = isOralExamCourse;
-        this._writtenWeightPercantage = 50;
-        this._exams = [];
+        this._writtenWeightPercantage = writtenWeightPerc;
+        this._exams = exams;
         this._takesPartInQuarters = takesPartInQuarters;
+    }
+
+    static newObjFrom(from: ManagedCourse): ManagedCourse{
+        const tmpImpl = class extends ManagedCourse {};
+        
+        return new tmpImpl(from._course, from._isLK, from._isOralExamCourse, from._takesPartInQuarters, from._exams, from._writtenWeightPercantage);
     }
 
     // ----------- Fully Managed Methods (because we don't trust User to do ts by themself) -----------
@@ -36,7 +43,6 @@ export default abstract class ManagedCourse implements UserCourse {
         if(isLK){
             this._isLK = true;
             this._takesPartInQuarters = [true, true, true, true];
-            this._isOralExamCourse = false;
         }
         else{
             this._isLK = false;

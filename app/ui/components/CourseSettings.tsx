@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { SwipableBottomSheet } from './SwipableBottomSheet';
 import { StyleSheet, Text, View } from 'react-native';
 import { useTheme } from '../ThemeProvider';
 import { EditableHeading } from './EditableHeading';
 import { GradeWeightSlider } from './GradeWeightSlider';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Togglebox from './Togglebox';
 import ManagedCourse from '../../client/static/implemented/ManagedCourse';
 import Checkbox from './Checkbox';
@@ -13,71 +12,124 @@ import Checkbox from './Checkbox';
 const CourseSettings: React.FC<{course: ManagedCourse}> = ({course}) => {
     const { colors } = useTheme();
 
+    const [courseState, setCourseState] = useState(course);
+
     const closeCallback = () => {
         // Handle closing here
         // Save changed settings
-    }
-
-    const onRenameCallback = (input: string) => {
-        // Handle course Rename here
-    }
-
-    const onWeightChangeCallback = (value: number) => {
-        // Handle Weight change here
-    }
-
-    const onLkStatusChange = (value: boolean) => {
-        // Handle LK status change here
-    }
-
-    const onOralExamStatusChange = (value: boolean) => {
-        // Handle oral exam status change here
     }
 
     const styles = StyleSheet.create({
         mediumText: {
             color: colors.fontColor,
             fontSize: 16,
-            paddingRight: 10
+            padding: 0,
+            margin: 0,
+            includeFontPadding: false,
+            paddingRight: 10,
+            height: 20
         },
         inlineContainer: {
             display: 'flex',
             flexDirection: 'row',
-            paddingTop: 30,
         },
         verticalStackContainer: {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            paddingTop: 30,
-        }
+        },
+        textTransform: {
+            // Checkbox/Toggle Height / 2 - Text Height / 2
+            transform: [{translateY: 34 / 2 - 20 / 2}]
+        },
+        centeredFlex: {
+            justifyContent: 'center',
+            alignContent: 'center',
+        },
+        gap: {
+            gap: 10
+        },
+        padding: {
+            marginTop: 30,
+        },
+        lowPadding: {
+            marginTop: 10,
+        },
     });
 
     return(
         <SwipableBottomSheet viewHeight={600} closeCallback={closeCallback}>
-            <EditableHeading text={course.course.displayName} onRenameCallback={onRenameCallback}/>
-            <GradeWeightSlider course={course} onWeightChangeCallback={onWeightChangeCallback}/>
-            <View style={styles.inlineContainer}>
-                {/*translateY: toggleHeight - textHeight * 2 + 3 (3 looks visually in the middle :shrug:)*/}
-                <Text style={[styles.mediumText, {transform: [{translateY: 34 - 16 * 2 + 3}]}]}>Ist dieser Kurs ein LK?</Text>
-                <Togglebox onChangeCallback={onLkStatusChange} initialValue={course.isLK}/>
+            <EditableHeading text={courseState.course.displayName} setText={(value) => courseState.course.displayName = value}/>
+            <GradeWeightSlider course={courseState} onWeightChangeCallback={(value) => {
+                courseState.writtenWeightPercantage = value
+                setCourseState(ManagedCourse.newObjFrom(courseState));
+            }}/>
+            <View style={[styles.inlineContainer, styles.padding]}>
+                <Text style={[styles.mediumText, styles.textTransform]}>Ist dieser Kurs ein LK?</Text>
+                <Togglebox state={courseState.isLK} setState={(value) => {
+                        courseState.isLK = value;
+                        setCourseState(ManagedCourse.newObjFrom(courseState));
+                    }}/>
             </View>
             <View style={styles.verticalStackContainer}>
-                <View style={styles.inlineContainer}>
-                    <Text style={[styles.mediumText, {transform: [{translateY: 34 - 16 * 2 + 3}]}]}>Mündliche Prüfung? </Text>
-                    <Checkbox onChangeCallback={onOralExamStatusChange} inactive={false} initialValue={course.isLK}/>
+                <View style={[styles.inlineContainer, styles.padding]}>
+                    <Text style={[styles.mediumText, styles.textTransform]}>Mündliche Prüfung? </Text>
+                    <Checkbox inactive={false} state={courseState.isOralExamCourse} setState={(value) => {
+                        courseState.isOralExamCourse = value
+                        setCourseState(ManagedCourse.newObjFrom(courseState));
+                    }}/>
                 </View>
-                <View style={[styles.inlineContainer, {paddingTop: 10}]}>
-                    <Text style={[styles.mediumText, {transform: [{translateY: 34 - 16 * 2 + 3}]}]}>Schriftliche Prüfung?</Text>
-                    <Checkbox onChangeCallback={() => { /*  Dummy method since this can never be changed (only via isLK update) */}} inactive={!course.canUserChange.isWrittenExamCourse} initialValue={course.isLK}/>
+                <View style={[styles.inlineContainer, styles.lowPadding]}>
+                    <Text style={[styles.mediumText, styles.textTransform]}>Schriftliche Prüfung?</Text>
+                    <Checkbox state={courseState.isLK} setState={() => { /*  Dummy method since this can never be changed (only via isLK update) */}} inactive={!courseState.canUserChange.isWrittenExamCourse}/>
                 </View>
             </View>
-
+            <View style={[styles.verticalStackContainer, styles.padding]}>
+                <Text style={styles.mediumText}>In welchen Halbjahren findet der Kurs statt?</Text>
+                <View style={[styles.inlineContainer, styles.centeredFlex, styles.gap]}>
+                    <View style={[styles.verticalStackContainer, styles.lowPadding]}>
+                        <Text style={styles.mediumText}>11.1</Text>
+                        <Checkbox 
+                            state={courseState.takesPartInQuarters[0]} 
+                            setState={() => {
+                                courseState.takesPartInQuarters = courseState.takesPartInQuarters.map((value, i) => (i === 0 ? !value : value));
+                                setCourseState(ManagedCourse.newObjFrom(courseState));
+                            }} 
+                            inactive={!courseState.canUserChange.takesPartInQuarters}/>
+                    </View>
+                    <View style={[styles.verticalStackContainer, styles.lowPadding]}>
+                        <Text style={styles.mediumText}>11.2</Text>
+                        <Checkbox state={courseState.takesPartInQuarters[1]} 
+                            setState={() => {
+                                courseState.takesPartInQuarters = courseState.takesPartInQuarters.map((value, i) => (i === 1 ? !value : value));
+                                setCourseState(ManagedCourse.newObjFrom(courseState));
+                            }}  
+                            inactive={!courseState.canUserChange.takesPartInQuarters}/>
+                    </View>
+                    <View style={[styles.verticalStackContainer, styles.lowPadding]}>
+                        <Text style={styles.mediumText}>12.1</Text>
+                        <Checkbox 
+                            state={courseState.takesPartInQuarters[2]} 
+                            setState={() => {
+                                courseState.takesPartInQuarters = courseState.takesPartInQuarters.map((value, i) => (i === 2 ? !value : value));
+                                setCourseState(ManagedCourse.newObjFrom(courseState));
+                            }}  
+                            inactive={!courseState.canUserChange.takesPartInQuarters}/>
+                    </View>
+                    <View style={[styles.verticalStackContainer, styles.lowPadding]}>
+                        <Text style={styles.mediumText}>12.2</Text>
+                        <Checkbox 
+                            state={courseState.takesPartInQuarters[3]} 
+                            setState={() => {
+                                courseState.takesPartInQuarters = courseState.takesPartInQuarters.map((value, i) => (i === 3 ? !value : value));
+                                setCourseState(ManagedCourse.newObjFrom(courseState));
+                            }} 
+                            inactive={!courseState.canUserChange.takesPartInQuarters}/>
+                    </View>
+                </View>
+            </View>
             {
                 /*
-                isWrittenExam / isOralExam
-                edit in which years the user participates in this course
-
                 Exams--- (List of all non-virtual exams)
                 */
             }
