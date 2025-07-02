@@ -33,7 +33,7 @@ export default abstract class ManagedCourse implements UserCourse {
     }
 
     static newObjFrom(from: ManagedCourse): ManagedCourse{
-        const tmpImpl = class extends ManagedCourse {};
+        class tmpImpl extends ManagedCourse {};
         
         return new tmpImpl(from._course, from._isLK, from._isOralExamCourse, from._takesPartInQuarters, from._exams, from._writtenWeightPercantage);
     }
