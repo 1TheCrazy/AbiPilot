@@ -20,6 +20,7 @@ const themes = {
     transparentAccent: 'rgba(255, 255, 255, 0.25)',
     highlightBlue: 'rgb(85, 142, 248)',
     infoYellow: 'rgb(153, 155, 54)',
+    questionBlue: 'rgba(58, 143, 255, 1)',
     bottomSheetColor: 'rgb(99, 99, 99)',
   },
   light: {
@@ -34,6 +35,7 @@ const themes = {
     transparentAccent: 'rgba(68, 68, 68, 0.6)',
     highlightBlue: 'rgb(0, 41, 117)',
     infoYellow: 'rgb(153, 155, 54)',
+    questionBlue: 'rgba(58, 143, 255, 1)',
     bottomSheetColor: 'rgb(163, 163, 163)',
   },
 };
