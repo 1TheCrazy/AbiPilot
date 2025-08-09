@@ -1,8 +1,8 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Dimensions, Modal, StyleSheet, View, } from 'react-native';
 import { useTheme } from '../ThemeProvider';
 import { Gesture, GestureDetector, GestureHandlerRootView, } from 'react-native-gesture-handler';
-import Animated, { cancelAnimation, runOnJS, useAnimatedStyle, useSharedValue, withDecay, withSpring } from 'react-native-reanimated';
+import Animated, { cancelAnimation, runOnJS, useAnimatedReaction, useAnimatedStyle, useSharedValue, withDecay, withSpring } from 'react-native-reanimated';
 
 import Backdrop from './Backdrop';
 
@@ -13,7 +13,7 @@ export const SwipableBottomSheet: React.FC<{ children: React.ReactNode, viewHeig
 
     const maxPan = viewHeight;
     const open = viewHeight * 0.6;
-    const close = 10;
+    const CLOSE = 0;
     const yPan = useSharedValue(open);
     const endLastGesture = useSharedValue(yPan.value);
     
@@ -26,12 +26,23 @@ export const SwipableBottomSheet: React.FC<{ children: React.ReactNode, viewHeig
             stiffness: 300,
             mass: 1,
             overshootClamping: true,
-        }, 
-        () => {
-            // Call closeCallback when animation is finished
-            runOnJS(closeCallback)();
         });
     };
+
+    // Handle Bounds of yPan
+    useAnimatedReaction(
+        () => yPan.value, 
+        (newValue, _) => {
+            // If we are below close point, call closeCallback
+            if (newValue <= CLOSE) {
+                runOnJS(closeCallback)();
+            }
+            // If we are higher than maxPan, apply some easing
+            else if (newValue >= maxPan) {
+                yPan.value = maxPan + Math.pow(newValue - maxPan, 1 / 1.3);
+            }
+        }
+    );
 
     const pan = Gesture.Pan()
     .onBegin(() => {
@@ -43,25 +54,14 @@ export const SwipableBottomSheet: React.FC<{ children: React.ReactNode, viewHeig
         // Up is negative so we extract here and flip sign for convinience
         const yPanEventValue = -event.translationY;
 
-        // If we reached max and still try to pan higher
-        if(yPan.value > maxPan){
-            // Damp if we pan to high
-            yPan.value = maxPan + Math.pow(yPanEventValue, 1 / 1.4);
-        }
-        // Normal pan
-        else{
-            yPan.value = endLastGesture.value + yPanEventValue;
-        }
+        yPan.value = endLastGesture.value + yPanEventValue;
+        
     })
     .onEnd((event) => {
         const handleBounds = () => {
-            // Close the Tab if we reached close point
-            if(yPan.value < close && yPan.value > -50 ){
-                closeAnim();
-            }
             // If we panned to high go back to maxPan
-            else if(yPan.value > maxPan){
-                const anim = () => withSpring(maxPan,{
+            if(yPan.value > maxPan){
+                const anim = () => withSpring(maxPan, {
                     damping: 25,
                     stiffness: 80,
                     mass: 1,
@@ -70,39 +70,35 @@ export const SwipableBottomSheet: React.FC<{ children: React.ReactNode, viewHeig
                 yPan.value = anim();
                 endLastGesture.value = anim();
             }
-            // BottomSheet not visible before applying disappear anim
-            else if(yPan.value < -50){
-                runOnJS(closeCallback)();
-            }
 
             // Save where last gesture left off in order to make yPan persistent through multiple gestures
-            endLastGesture.value = Math.min(yPan.value, maxPan);
+            endLastGesture.value = yPan.value;
         };
 
         const velocity = -event.velocityY;
 
-        // Continue with momentum
+        // Continue Movement with momentum
         if(Math.abs(velocity) > 500 && yPan.value < maxPan){
-            const anim = (withCallback: boolean) => withDecay({
+            const withMomentum = () => withDecay({
                     // Make it easier to close the sheet than to fully open it
                     velocity: velocity > 0 ? velocity * 0.3 : velocity * 0.4,
                     deceleration: velocity > 0 ? 0.98: 0.999,
                 },
                 // Handle bounds when animation is finished and withCallback = true
                 () => {
-                    withCallback ? handleBounds() : () => {};
+                    handleBounds()
                 }
             );
 
-            yPan.value = anim(true);
+            yPan.value = withMomentum();
             // Also animte this if the user grabs pan during animation
-            endLastGesture.value = anim(false);
+            endLastGesture.value = withMomentum();
         }
         // No animations will be applied anymore so we can handle bounds
         else{
             handleBounds();
             // Save where last gesture left off in order to make yPan persistent through multiple gestures
-            endLastGesture.value = Math.min(yPan.value, maxPan);
+            endLastGesture.value = yPan.value;
         }
     })
     .enabled(enabled)
