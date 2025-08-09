@@ -9,15 +9,10 @@ import Togglebox from './Togglebox';
 import ManagedCourse from '../../client/static/implemented/ManagedCourse';
 import Checkbox from './Checkbox';
 
-const CourseSettings: React.FC<{course: ManagedCourse}> = ({course}) => {
+const CourseSettings: React.FC<{course: ManagedCourse, onClose: (course: ManagedCourse) => void}> = ({course, onClose}) => {
     const { colors } = useTheme();
 
     const [courseState, setCourseState] = useState(course);
-
-    const closeCallback = () => {
-        // Handle closing here
-        // Save changed settings
-    }
 
     const styles = StyleSheet.create({
         mediumText: {
@@ -58,8 +53,8 @@ const CourseSettings: React.FC<{course: ManagedCourse}> = ({course}) => {
     });
 
     return(
-        <SwipableBottomSheet viewHeight={600} closeCallback={closeCallback}>
-            <EditableHeading text={courseState.course.displayName} setText={(value) => courseState.course.displayName = value}/>
+        <SwipableBottomSheet viewHeight={600} closeCallback={() => onClose(courseState)}>
+            <EditableHeading text={courseState.course.displayName} setText={(value) => { courseState.course.displayName = value; setCourseState(ManagedCourse.newObjFrom(courseState))}}/>
             <GradeWeightSlider course={courseState} onWeightChangeCallback={(value) => {
                 courseState.writtenWeightPercantage = value
                 setCourseState(ManagedCourse.newObjFrom(courseState));

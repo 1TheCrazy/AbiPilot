@@ -9,6 +9,14 @@ export const EditableHeading: React.FC<{text: string, setText: (value: string) =
     const [intermediateText, setIntermediateText] = useState(text);
     const ref = useRef<TextInput>(null);
 
+    const onEditingEnd = () => {
+        if(intermediateText.trim() === '') 
+            setIntermediateText(text);
+        else {
+            setText(intermediateText);
+        }
+    }
+
     const styles = StyleSheet.create({
     text:{
         fontSize: 20,
@@ -46,9 +54,9 @@ export const EditableHeading: React.FC<{text: string, setText: (value: string) =
             </Pressable>
             <TextInput 
                 style={styles.text} 
-                value={text} 
+                value={intermediateText} 
                 onChangeText={setIntermediateText}
-                onEndEditing={() => setText(intermediateText)}
+                onEndEditing={onEditingEnd}
                 ref={ref}
                 multiline={false}
                 maxLength={50}
