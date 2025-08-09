@@ -7,7 +7,7 @@ import Animated, { cancelAnimation, runOnJS, useAnimatedStyle, useSharedValue, w
 import Backdrop from './Backdrop';
 
 // Didn't know there were fucking managed bottom sheets like @gorhom/bottom-sheet, so I spent hours writing this
-export const SwipableBottomSheet: React.FC<{ children: React.ReactNode, viewHeight: number, closeCallback: any }> = ({ children, viewHeight, closeCallback }) => {
+export const SwipableBottomSheet: React.FC<{ children: React.ReactNode, viewHeight: number, closeCallback: () => void }> = ({ children, viewHeight, closeCallback }) => {
     const { colors } = useTheme();
     const screenWidth = Dimensions.get('screen').width;
 
@@ -21,11 +21,13 @@ export const SwipableBottomSheet: React.FC<{ children: React.ReactNode, viewHeig
     const [enabled, setEnabled] = useState(true);
 
     const closeAnim = () => {
-        yPan.value = withSpring(-100, {
-                damping: 25,
-                stiffness: 80,
-                mass: 1,
-        }, () => {
+        yPan.value = withSpring(-10, {
+            damping: 30,
+            stiffness: 300,
+            mass: 1,
+            overshootClamping: true,
+        }, 
+        () => {
             // Call closeCallback when animation is finished
             runOnJS(closeCallback)();
         });

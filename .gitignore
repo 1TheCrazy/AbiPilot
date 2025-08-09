@@ -76,3 +76,6 @@ yarn-error.log
 
 # explicitly exclude keystore
 android/debug.keystore
+
+# local file to track  progress
+feature-list.md
