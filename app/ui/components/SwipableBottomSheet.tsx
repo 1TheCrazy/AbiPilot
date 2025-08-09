@@ -11,12 +11,13 @@ export const SwipableBottomSheet: React.FC<{ children: React.ReactNode, viewHeig
     const { colors } = useTheme();
     const screenWidth = Dimensions.get('screen').width;
 
-    const maxPan = viewHeight;
-    const open = viewHeight * 0.6;
+    const MAX_PAN = viewHeight;
+    const OPEN = viewHeight * 0.6;
     const CLOSE = 0;
-    const yPan = useSharedValue(open);
+    const yPan = useSharedValue(OPEN);
     const endLastGesture = useSharedValue(yPan.value);
-    
+    const callbackCalled = useSharedValue(false);
+
     // For PanGestureProvider
     const [enabled, setEnabled] = useState(true);
 
@@ -34,12 +35,13 @@ export const SwipableBottomSheet: React.FC<{ children: React.ReactNode, viewHeig
         () => yPan.value, 
         (newValue, _) => {
             // If we are below close point, call closeCallback
-            if (newValue <= CLOSE) {
+            if (newValue <= CLOSE && !callbackCalled.value) {
                 runOnJS(closeCallback)();
+                callbackCalled.value = true;
             }
             // If we are higher than maxPan, apply some easing
-            else if (newValue >= maxPan) {
-                yPan.value = maxPan + Math.pow(newValue - maxPan, 1 / 1.3);
+            else if (newValue >= MAX_PAN) {
+                yPan.value = MAX_PAN + Math.pow(newValue - MAX_PAN, 1 / 1.3);
             }
         }
     );
@@ -60,8 +62,8 @@ export const SwipableBottomSheet: React.FC<{ children: React.ReactNode, viewHeig
     .onEnd((event) => {
         const handleBounds = () => {
             // If we panned to high go back to maxPan
-            if(yPan.value > maxPan){
-                const anim = () => withSpring(maxPan, {
+            if(yPan.value > MAX_PAN){
+                const anim = () => withSpring(MAX_PAN, {
                     damping: 25,
                     stiffness: 80,
                     mass: 1,
@@ -78,7 +80,7 @@ export const SwipableBottomSheet: React.FC<{ children: React.ReactNode, viewHeig
         const velocity = -event.velocityY;
 
         // Continue Movement with momentum
-        if(Math.abs(velocity) > 500 && yPan.value < maxPan){
+        if(Math.abs(velocity) > 500 && yPan.value < MAX_PAN){
             const withMomentum = () => withDecay({
                     // Make it easier to close the sheet than to fully open it
                     velocity: velocity > 0 ? velocity * 0.3 : velocity * 0.4,
