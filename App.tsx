@@ -23,23 +23,22 @@ export default function App(){
     };
   });
 
-  // Return a 'first startup screen' if we booted the app for the first time
-  if(isInitialStartup){
-    return(
-      <ThemeProvider>
-        <StartupScreen onComplete={() =>{
-          Client.isInitialStartup = false;
-          setInitialStartup(false); // Trigger a Rerender to go into the normal app screen
-        }}/>
-      </ThemeProvider>
-    )
-  }
 
-  return (
+  return(
     <GestureHandlerRootView>
       <ThemeProvider>
-        <ThemedApp/> 
-      </ThemeProvider> 
+        {
+          // Return a 'first startup screen' if we booted the app for the first time
+          isInitialStartup ? 
+            <StartupScreen onComplete={() =>{
+              Client.isInitialStartup = false;
+              setInitialStartup(false); // Trigger a Rerender to go into the normal app screen
+            }}/>
+          :
+          // Return normal App
+            <ThemedApp/> 
+        }
+      </ThemeProvider>
     </GestureHandlerRootView>
   );
 }
