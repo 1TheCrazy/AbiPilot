@@ -9,7 +9,7 @@ import ManagedCourse from '../../client/static/implemented/ManagedCourse';
 
 export const GradeWeightSlider: React.FC<{course: ManagedCourse, onWeightChangeCallback: (value: number) => void }> = ({course, onWeightChangeCallback}) => {
     const { colors } = useTheme();
-    const [ value, setValue ] = useState(course.writtenWeightPercantage);
+    const [ value, setValue ] = useState(course.writtenWeightPercantage * 100);
     const { setEnabled } = useContext(PanGestureContext);
 
     const styles = StyleSheet.create({
