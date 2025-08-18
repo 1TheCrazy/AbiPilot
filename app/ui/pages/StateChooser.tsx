@@ -28,12 +28,18 @@ const StateChooseScreen: React.FC<{ inStartupFlow: boolean }> = ({ inStartupFlow
             padding: 16,
             minHeight: screenHeight
             }}>
-            <Text style={[styles.bigText, {color: colors.fontColor}]}>Wähle ein Bundesland aus...</Text>
-            { 
+            {
+                /* For now we'll always be in the startup flow, since the app will only be supporting BW (for now...) */
                 inStartupFlow ? 
-                (<Pressable style={[styles.button, { borderColor: colors.highlightBlue }]} onPress={() => { navigation.navigate('finishSetup') }}>
-                    <Text style={[styles.buttonText, { color: colors.highlightBlue }]}>Nächster Schritt</Text>
-                </Pressable>)
+                (
+                    <>
+                        <Text style={[styles.bigText, {color: colors.fontColor}]}>Dein Bundesland📍</Text>
+                        <Text style={[styles.smallText, {color: colors.lightFontColor}]}>Zum jetztigen Zeitpunkt unterstüzt AbiPilot nur das Abitursystem in Baden-Württemberg, da die Abitursysteme in jedem Bundesland unterschiedlich sind.</Text>
+                        <Pressable style={[styles.button, {borderColor: colors.highlightBlue}]} onPress={() => navigation.navigate('chooseCourses')}>
+                            <Text style={[styles.buttonText, { color: colors.highlightBlue }]}>Ok</Text>
+                        </Pressable>
+                    </>
+                )
                 :
                 <View>
                     <InfoCard text="Wenn du dein Bundesland änderst, musst du ggf. deine Kurswahl anpassen."/>
@@ -48,8 +54,15 @@ const StateChooseScreen: React.FC<{ inStartupFlow: boolean }> = ({ inStartupFlow
 
 const styles = StyleSheet.create({
     bigText: {
-        fontSize: 23,
-        paddingTop: 20,
+        fontSize: 35,
+        alignSelf: 'center',
+        paddingTop: 100,
+    },
+    smallText: {
+        fontSize: 15,
+        paddingTop: 30,
+        paddingBottom: 80,
+        textAlign: 'center'
     },
     button: {
         borderWidth: 4,
@@ -59,6 +72,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         fontSize: 22,
+        fontWeight: 800,
         alignSelf: 'center'
     }
 });
