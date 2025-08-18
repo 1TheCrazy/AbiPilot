@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import Course from "../interfaces/Course";
 import Exam from "../interfaces/Exam";
 import UserCourse from "../interfaces/UserCourse";
@@ -85,4 +84,29 @@ export default abstract class ManagedCourse implements UserCourse {
 
     // No setter since this can be only set in constructor (it's not that deep...)
     get course(): Course { return this._course}
+
+    // Overwrite toJson for custom serialization
+    toJSON() {
+        return {
+            _course: this._course,
+            _isLK: this._isLK,
+            _isOralExamCourse: this._isOralExamCourse,
+            _writtenWeightPercantage: this._writtenWeightPercantage,
+            _exams: this._exams,
+            _takesPartInQuarters: this._takesPartInQuarters,
+        };
+    }
+
+    static fromJSON(json: any): ManagedCourse {
+        class TmpImpl extends ManagedCourse {}
+        
+        return new TmpImpl(
+            json._course as Course,
+            json.isLK,
+            json.isOralExamCourse,
+            json.writtenWeightPercantage,
+            json.exams,
+            json.takesPartInQuarters,
+        );
+    }
 }
