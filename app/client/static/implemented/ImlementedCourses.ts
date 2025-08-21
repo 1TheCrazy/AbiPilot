@@ -41,8 +41,35 @@ class ImplementedCourses {
     static Economics = new (class extends ManagedCourse { constructor() { super({ displayName: "Wirtschaft 💼", id: "econ" } as Course, false, false, [true, true, true, true], [], 0.6); } });
     static Engineering = new (class extends ManagedCourse { constructor() { super({ displayName: "Technik 🛠️", id: "tech" } as Course, false, false, [true, true, true, true], [], 0.6); } });
     static Law = new (class extends ManagedCourse { constructor() { super({ displayName: "Rechtskunde 📜", id: "law" } as Course, false, false, [true, true, true, true], [], 0.5); } });
+    static Astronomy = new (class extends ManagedCourse { constructor() { super({ displayName: "Astronomie 🔭", id: "astro" } as Course, false, false, [true, true, true, true], [], 0.6); } });
+    static Literature = new (class extends ManagedCourse { constructor() { super({ displayName: "Literatur ✍️", id: "lit" } as Course, false, false, [true, true, true, true], [], 0.4); } });
+    static MediaStudies = new (class extends ManagedCourse { constructor() { super({ displayName: "Medienkunde 📰", id: "media" } as Course, false, false, [true, true, true, true], [], 0.5); } });
+    static Nutrition = new (class extends ManagedCourse { constructor() { super({ displayName: "Ernährungslehre 🥗", id: "nutri" } as Course, false, false, [true, true, true, true], [], 0.5); } });
+    static HomeEconomics = new (class extends ManagedCourse { constructor() { super({ displayName: "Hauswirtschaft 🍳", id: "hausw" } as Course, false, false, [true, true, true, true], [], 0.4); } });
+    static TextileDesign = new (class extends ManagedCourse { constructor() { super({ displayName: "Textilgestaltung 🧵", id: "textil" } as Course, false, false, [true, true, true, true], [], 0.4); } });
+    static Crafts = new (class extends ManagedCourse { constructor() { super({ displayName: "Werken 🔨", id: "werken" } as Course, false, false, [true, true, true, true], [], 0.4); } });
+    static NwT = new (class extends ManagedCourse { constructor() { super({ displayName: "Naturwissenschaft & Technik 🔧", id: "nwt" } as Course, false, false, [true, true, true, true], [], 0.6); } });
+    static AES = new (class extends ManagedCourse { constructor() { super({ displayName: "Alltagskultur, Ernährung, Soziales 🧺", id: "aes" } as Course, false, false, [true, true, true, true], [], 0.5); } });
+    static WBS = new (class extends ManagedCourse { constructor() { super({ displayName: "Wirtschaft, Berufs- & Studienorientierung 🎯", id: "wbs" } as Course, false, false, [true, true, true, true], [], 0.4); } });
+    static LER = new (class extends ManagedCourse { constructor() { super({ displayName: "LER: Lebensgestaltung–Ethik–Religionskunde 🕊️", id: "ler" } as Course, false, false, [true, true, true, true], [], 0.5); } });
+    static DaZ = new (class extends ManagedCourse { constructor() { super({ displayName: "Deutsch als Zweitsprache (DaZ) 🗣️", id: "daz" } as Course, false, false, [true, true, true, true], [], 0.5); } });
+    static Robotics = new (class extends ManagedCourse { constructor() { super({ displayName: "Robotik 🤖", id: "robot" } as Course, false, false, [true, true, true, true], [], 0.6); } });
+    static BusinessInformatics = new (class extends ManagedCourse { constructor() { super({ displayName: "Wirtschaftsinformatik 💻", id: "wi" } as Course, false, false, [true, true, true, true], [], 0.6); } });
+    static Seminar = new (class extends ManagedCourse { constructor() { super({ displayName: "Seminarfach 📑", id: "seminar" } as Course, false, false, [true, true, true, true], [], 0.5); } });
+    static ProjectCourse = new (class extends ManagedCourse { constructor() { super({ displayName: "Projektkurs 🧩", id: "proj" } as Course, false, false, [true, true, true, true], [], 0.5); } });
+    static ModernGreek = new (class extends ManagedCourse { constructor() { super({ displayName: "Neugriechisch 🇬🇷", id: "neugr" } as Course, false, false, [true, true, true, true], [], 0.5); } });
+    static Portuguese = new (class extends ManagedCourse { constructor() { super({ displayName: "Portugiesisch 🇵🇹", id: "port" } as Course, false, false, [true, true, true, true], [], 0.5); } });
+    static Swedish = new (class extends ManagedCourse { constructor() { super({ displayName: "Schwedisch 🇸🇪", id: "swed" } as Course, false, false, [true, true, true, true], [], 0.5); } });
+    static Norwegian = new (class extends ManagedCourse { constructor() { super({ displayName: "Norwegisch 🇳🇴", id: "nor" } as Course, false, false, [true, true, true, true], [], 0.5); } });
+    static Czech = new (class extends ManagedCourse { constructor() { super({ displayName: "Tschechisch 🇨🇿", id: "czech" } as Course, false, false, [true, true, true, true], [], 0.5); } });
+    static Ukrainian = new (class extends ManagedCourse { constructor() { super({ displayName: "Ukrainisch 🇺🇦", id: "ukr" } as Course, false, false, [true, true, true, true], [], 0.5); } });
 
-    static Implementations = [
+    static getNewTemplate = () => new (class extends ManagedCourse { constructor() { super({ displayName: "Neuer Kurs", id: "new_course" } as Course, false, false, [true, true, true, true], [], 0.5); } });
+    static isEqualToTemplate = (course: ManagedCourse) : boolean => {
+        return course.course.id === "new_course" && course.course.displayName === "Neuer Kurs" && !course.isLK && !course.isOralExamCourse && course.takesPartInQuarters.every(q => q) && course.writtenWeightPercantage === 0.5;
+    }
+
+    public static readonly Implementations = [
         ImplementedCourses.Biology,
         ImplementedCourses.Chemistry,
         ImplementedCourses.Physics,
@@ -79,6 +106,30 @@ class ImplementedCourses {
         ImplementedCourses.Psychology,
         ImplementedCourses.Economics,
         ImplementedCourses.Engineering,
-        ImplementedCourses.Law
+        ImplementedCourses.Law,
+        ImplementedCourses.Astronomy,
+        ImplementedCourses.Literature,
+        ImplementedCourses.MediaStudies,
+        ImplementedCourses.Nutrition,
+        ImplementedCourses.HomeEconomics,
+        ImplementedCourses.TextileDesign,
+        ImplementedCourses.Crafts,
+        ImplementedCourses.NwT,
+        ImplementedCourses.AES,
+        ImplementedCourses.WBS,
+        ImplementedCourses.LER,
+        ImplementedCourses.DaZ,
+        ImplementedCourses.Robotics,
+        ImplementedCourses.BusinessInformatics,
+        ImplementedCourses.Seminar,
+        ImplementedCourses.ProjectCourse,
+        ImplementedCourses.ModernGreek,
+        ImplementedCourses.Portuguese,
+        ImplementedCourses.Swedish,
+        ImplementedCourses.Norwegian,
+        ImplementedCourses.Czech,
+        ImplementedCourses.Ukrainian, 
     ];
 }
+
+export default ImplementedCourses;

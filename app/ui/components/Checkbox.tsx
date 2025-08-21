@@ -47,7 +47,7 @@ const Checkbox: React.FC<{ state: boolean, setState: (value: boolean) => void, i
         },
         pressable: {
             alignSelf: 'flex-start',
-         },
+        },
         shadow: {
             borderRadius: 15,
             elevation: 2, // Dropshadow on android
