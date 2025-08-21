@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, View } from 'react-native'
 import Animated, { interpolateColor, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import { useTheme } from '../ThemeProvider';
 
-const Togglebox: React.FC<{ state: boolean, setState: (value: boolean) => void}> = ({ state, setState }) => {
+const Togglebox: React.FC<{ state: boolean, setState: (value: boolean) => void, inactive?: boolean}> = ({ state, setState, inactive = false}) => {
     const SWITCH_WIDTH = 70;
     const xTransform = useSharedValue(0);
     const animationProgress = useSharedValue(0);
@@ -49,6 +49,7 @@ const Togglebox: React.FC<{ state: boolean, setState: (value: boolean) => void}>
             shadowOffset: { width: 0, height: 1 },
             shadowOpacity: 0.2,
             shadowRadius: 1.41,
+            opacity: (!inactive ? 1 : 0.4),
         },
         handle: {
             width: 25,
@@ -62,7 +63,7 @@ const Togglebox: React.FC<{ state: boolean, setState: (value: boolean) => void}>
     });
 
     return(
-        <Pressable style={styles.pressable} onPress={() => { setState(!state); }}>
+        <Pressable style={styles.pressable} onPress={() => { !inactive ? setState(!state) : {}; }}>
             <Animated.View style={[styles.switch, switchAnimationStyle]}>
                 <Animated.View style={[styles.handle, handleAnimationStyle]}/>
             </Animated.View>
