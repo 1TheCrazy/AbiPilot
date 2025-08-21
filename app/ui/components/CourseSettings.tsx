@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 
 import { SwipableBottomSheet } from './SwipableBottomSheet';
 import { StyleSheet, Text, View } from 'react-native';
@@ -9,7 +9,7 @@ import Togglebox from './Togglebox';
 import ManagedCourse from '../../client/static/implemented/ManagedCourse';
 import Checkbox from './Checkbox';
 
-const CourseSettings: React.FC<{course: ManagedCourse, onClose: (course: ManagedCourse) => void}> = ({course, onClose}) => {
+const CourseSettings: React.FC<{ course: ManagedCourse, onClose: (course: ManagedCourse) => void, children?: ReactNode, height?: number, userConfigurable?: boolean}> = ({course, onClose, children, height =  600, userConfigurable = true}) => {
     const { colors } = useTheme();
 
     const [courseState, setCourseState] = useState(course);
@@ -53,23 +53,26 @@ const CourseSettings: React.FC<{course: ManagedCourse, onClose: (course: Managed
     });
 
     return(
-        <SwipableBottomSheet viewHeight={600} closeCallback={() => onClose(courseState)}>
+        <SwipableBottomSheet viewHeight={height} closeCallback={() => onClose(courseState)}>
             <EditableHeading text={courseState.course.displayName} setText={(value) => { courseState.course.displayName = value; setCourseState(ManagedCourse.newObjFrom(courseState))}}/>
             <GradeWeightSlider course={courseState} onWeightChangeCallback={(value) => {
                 courseState.writtenWeightPercantage = value
                 setCourseState(ManagedCourse.newObjFrom(courseState));
             }}/>
+            { /* LK config */}
             <View style={[styles.inlineContainer, styles.padding]}>
                 <Text style={[styles.mediumText, styles.textTransform]}>Ist dieser Kurs ein LK?</Text>
-                <Togglebox state={courseState.isLK} setState={(value) => {
+                <Togglebox state={courseState.isLK} inactive={!userConfigurable} setState={(value) => {
                         courseState.isLK = value;
                         setCourseState(ManagedCourse.newObjFrom(courseState));
                     }}/>
             </View>
+
+            { /* Oral/Written Exam config */}
             <View style={styles.verticalStackContainer}>
                 <View style={[styles.inlineContainer, styles.padding]}>
                     <Text style={[styles.mediumText, styles.textTransform]}>Mündliche Prüfung? </Text>
-                    <Checkbox inactive={false} state={courseState.isOralExamCourse} setState={(value) => {
+                    <Checkbox inactive={!userConfigurable} state={courseState.isOralExamCourse} setState={(value) => {
                         courseState.isOralExamCourse = value
                         setCourseState(ManagedCourse.newObjFrom(courseState));
                     }}/>
@@ -79,6 +82,8 @@ const CourseSettings: React.FC<{course: ManagedCourse, onClose: (course: Managed
                     <Checkbox state={courseState.isLK} setState={() => { /*  Dummy method since this can never be changed (only via isLK update) */}} inactive={!courseState.canUserChange.isWrittenExamCourse}/>
                 </View>
             </View>
+
+            { /* Quarter config */}
             <View style={[styles.verticalStackContainer, styles.padding]}>
                 <Text style={styles.mediumText}>In welchen Halbjahren findet der Kurs statt?</Text>
                 <View style={[styles.inlineContainer, styles.centeredFlex, styles.gap]}>
@@ -90,7 +95,7 @@ const CourseSettings: React.FC<{course: ManagedCourse, onClose: (course: Managed
                                 courseState.takesPartInQuarters = courseState.takesPartInQuarters.map((value, i) => (i === 0 ? !value : value));
                                 setCourseState(ManagedCourse.newObjFrom(courseState));
                             }} 
-                            inactive={!courseState.canUserChange.takesPartInQuarters}/>
+                            inactive={!courseState.canUserChange.takesPartInQuarters || !userConfigurable}/>
                     </View>
                     <View style={[styles.verticalStackContainer, styles.lowPadding]}>
                         <Text style={styles.mediumText}>11.2</Text>
@@ -99,7 +104,7 @@ const CourseSettings: React.FC<{course: ManagedCourse, onClose: (course: Managed
                                 courseState.takesPartInQuarters = courseState.takesPartInQuarters.map((value, i) => (i === 1 ? !value : value));
                                 setCourseState(ManagedCourse.newObjFrom(courseState));
                             }}  
-                            inactive={!courseState.canUserChange.takesPartInQuarters}/>
+                            inactive={!courseState.canUserChange.takesPartInQuarters || !userConfigurable}/>
                     </View>
                     <View style={[styles.verticalStackContainer, styles.lowPadding]}>
                         <Text style={styles.mediumText}>12.1</Text>
@@ -109,7 +114,7 @@ const CourseSettings: React.FC<{course: ManagedCourse, onClose: (course: Managed
                                 courseState.takesPartInQuarters = courseState.takesPartInQuarters.map((value, i) => (i === 2 ? !value : value));
                                 setCourseState(ManagedCourse.newObjFrom(courseState));
                             }}  
-                            inactive={!courseState.canUserChange.takesPartInQuarters}/>
+                            inactive={!courseState.canUserChange.takesPartInQuarters || !userConfigurable}/>
                     </View>
                     <View style={[styles.verticalStackContainer, styles.lowPadding]}>
                         <Text style={styles.mediumText}>12.2</Text>
@@ -119,7 +124,7 @@ const CourseSettings: React.FC<{course: ManagedCourse, onClose: (course: Managed
                                 courseState.takesPartInQuarters = courseState.takesPartInQuarters.map((value, i) => (i === 3 ? !value : value));
                                 setCourseState(ManagedCourse.newObjFrom(courseState));
                             }} 
-                            inactive={!courseState.canUserChange.takesPartInQuarters}/>
+                            inactive={!courseState.canUserChange.takesPartInQuarters || !userConfigurable}/>
                     </View>
                 </View>
             </View>
@@ -127,6 +132,11 @@ const CourseSettings: React.FC<{course: ManagedCourse, onClose: (course: Managed
                 /*
                 Exams--- (List of all non-virtual exams)
                 */
+            }
+
+            {
+                /* Additional children that may be needed to make the 'CourseSettings' usable as a Template that can be built upon*/
+                children
             }
         </SwipableBottomSheet>
     );
