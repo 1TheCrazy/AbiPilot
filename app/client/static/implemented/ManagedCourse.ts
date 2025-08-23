@@ -81,8 +81,8 @@ export abstract class ManagedCourse implements UserCourse {
 
     get isWrittenExamCourse(): boolean { return this._isLK}
 
-    set field(bereich: Field){
-        this._field = bereich;
+    set field(field: Field){
+        this._field = field;
     }
     get field(): Field { return this._field}
 
@@ -97,7 +97,7 @@ export abstract class ManagedCourse implements UserCourse {
     // Overwrite toJson for custom serialization
     toJSON() {
         return {
-            course: this._course,
+            course: JSON.stringify(this._course),
             isLK: this._isLK,
             isOralExamCourse: this._isOralExamCourse,
             writtenWeightPercantage: this._writtenWeightPercantage,
@@ -117,7 +117,7 @@ export abstract class ManagedCourse implements UserCourse {
             json.writtenWeightPercantage,
             json.exams,
             json.takesPartInQuarters,
-            json.field
+            json.field as Field
         );
     }
 }

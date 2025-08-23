@@ -8,8 +8,9 @@ import { GradeWeightSlider } from './GradeWeightSlider';
 import Togglebox from './Togglebox';
 import { ManagedCourse } from '../../client/static/implemented/ManagedCourse';
 import Checkbox from './Checkbox';
+import FieldSlider from './FieldSlider';
 
-const CourseSettings: React.FC<{ course: ManagedCourse, onClose: (course: ManagedCourse) => void, children?: ReactNode, height?: number, userConfigurable?: boolean}> = ({course, onClose, children, height =  600, userConfigurable = true}) => {
+const CourseSettings: React.FC<{ course: ManagedCourse, onClose: (course: ManagedCourse) => void, children?: ReactNode, height?: number, userConfigurable?: boolean}> = ({course, onClose, children, height = 650, userConfigurable = true}) => {
     const { colors } = useTheme();
 
     const [courseState, setCourseState] = useState(course);
@@ -129,6 +130,13 @@ const CourseSettings: React.FC<{ course: ManagedCourse, onClose: (course: Manage
                     </View>
                 </View>
             </View>
+            {/* Field config */}
+            <Text style={[styles.mediumText, styles.padding]}>Aufgabenfeld</Text>
+            <FieldSlider field={courseState.field} changedCallback={(field) => {
+                    courseState.field = field;
+                    setCourseState(ManagedCourse.newObjFrom(courseState));
+                }}
+                style={styles.lowPadding}/>
             {
                 /*
                 Exams--- (List of all non-virtual exams)
