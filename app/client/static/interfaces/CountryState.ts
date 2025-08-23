@@ -1,4 +1,4 @@
-import ManagedCourse from "../implemented/ManagedCourse";
+import { ManagedCourse } from "../implemented/ManagedCourse";
 import Course from "./Course";
 import Exam from "./Exam";
 import UserCourse from "./UserCourse";

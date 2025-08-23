@@ -6,7 +6,7 @@ import { useTheme } from '../ThemeProvider';
 import { EditableHeading } from './EditableHeading';
 import { GradeWeightSlider } from './GradeWeightSlider';
 import Togglebox from './Togglebox';
-import ManagedCourse from '../../client/static/implemented/ManagedCourse';
+import { ManagedCourse } from '../../client/static/implemented/ManagedCourse';
 import Checkbox from './Checkbox';
 
 const CourseSettings: React.FC<{ course: ManagedCourse, onClose: (course: ManagedCourse) => void, children?: ReactNode, height?: number, userConfigurable?: boolean}> = ({course, onClose, children, height =  600, userConfigurable = true}) => {
@@ -55,8 +55,9 @@ const CourseSettings: React.FC<{ course: ManagedCourse, onClose: (course: Manage
     return(
         <SwipableBottomSheet viewHeight={height} closeCallback={() => onClose(courseState)}>
             <EditableHeading text={courseState.course.displayName} setText={(value) => { courseState.course.displayName = value; setCourseState(ManagedCourse.newObjFrom(courseState))}}/>
+            {/* Grade config */}
             <GradeWeightSlider course={courseState} onWeightChangeCallback={(value) => {
-                courseState.writtenWeightPercantage = value
+                courseState.writtenWeightPercantage = value / 100;
                 setCourseState(ManagedCourse.newObjFrom(courseState));
             }}/>
             { /* LK config */}

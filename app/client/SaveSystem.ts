@@ -1,5 +1,5 @@
 import { MMKV } from 'react-native-mmkv';
-import ManagedCourse from './static/implemented/ManagedCourse';
+import { ManagedCourse } from './static/implemented/ManagedCourse';
 
 type Theme = 'dark' | 'light' | 'system';
 

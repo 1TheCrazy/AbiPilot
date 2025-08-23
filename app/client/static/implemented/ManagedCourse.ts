@@ -2,13 +2,16 @@ import Course from "../interfaces/Course";
 import Exam from "../interfaces/Exam";
 import UserCourse from "../interfaces/UserCourse";
 
-export default abstract class ManagedCourse implements UserCourse {
+export type Field = 'I' | 'II' | 'III' | 'Sports';
+
+export abstract class ManagedCourse implements UserCourse {
     protected _course: Course;
     protected _isLK: boolean;
     protected _isOralExamCourse: boolean;
     protected _writtenWeightPercantage: number;
     protected _exams: Exam[];
     protected _takesPartInQuarters: boolean[];
+    protected _field: Field;
 
     // Access flags (because we don't trust User to do remember that by themself)
     // We could include more (like oral exam restrictions), but those were not included by choice
@@ -22,19 +25,20 @@ export default abstract class ManagedCourse implements UserCourse {
         get isWrittenExamCourse(): boolean { return false; },
     }
 
-    constructor(course: Course, isLK: boolean, isOralExamCourse: boolean, takesPartInQuarters: boolean[], exams: Exam[], writtenWeightPerc: number){
+    constructor(course: Course, isLK: boolean, isOralExamCourse: boolean, takesPartInQuarters: boolean[], exams: Exam[], writtenWeightPerc: number, field: Field){
         this._course = course;
         this._isLK = isLK;
         this._isOralExamCourse = isOralExamCourse;
         this._writtenWeightPercantage = writtenWeightPerc;
         this._exams = exams;
         this._takesPartInQuarters = takesPartInQuarters;
+        this._field = field;
     }
 
     static newObjFrom(from: ManagedCourse): ManagedCourse{
         class tmpImpl extends ManagedCourse {};
         
-        return new tmpImpl(from._course, from._isLK, from._isOralExamCourse, from._takesPartInQuarters, from._exams, from._writtenWeightPercantage);
+        return new tmpImpl(from._course, from._isLK, from._isOralExamCourse, from._takesPartInQuarters, from._exams, from._writtenWeightPercantage, from._field);
     }
 
     // ----------- Fully Managed Methods (because we don't trust User to do ts by themself) -----------
@@ -77,6 +81,11 @@ export default abstract class ManagedCourse implements UserCourse {
 
     get isWrittenExamCourse(): boolean { return this._isLK}
 
+    set field(bereich: Field){
+        this._field = bereich;
+    }
+    get field(): Field { return this._field}
+
     set exams(exams: Exam[]){
         this._exams = exams;
     }
@@ -88,12 +97,13 @@ export default abstract class ManagedCourse implements UserCourse {
     // Overwrite toJson for custom serialization
     toJSON() {
         return {
-            _course: this._course,
-            _isLK: this._isLK,
-            _isOralExamCourse: this._isOralExamCourse,
-            _writtenWeightPercantage: this._writtenWeightPercantage,
-            _exams: this._exams,
-            _takesPartInQuarters: this._takesPartInQuarters,
+            course: this._course,
+            isLK: this._isLK,
+            isOralExamCourse: this._isOralExamCourse,
+            writtenWeightPercantage: this._writtenWeightPercantage,
+            exams: this._exams,
+            takesPartInQuarters: this._takesPartInQuarters,
+            field: this._field,
         };
     }
 
@@ -101,12 +111,13 @@ export default abstract class ManagedCourse implements UserCourse {
         class TmpImpl extends ManagedCourse {}
         
         return new TmpImpl(
-            json._course as Course,
+            json.course as Course,
             json.isLK,
             json.isOralExamCourse,
             json.writtenWeightPercantage,
             json.exams,
             json.takesPartInQuarters,
+            json.field
         );
     }
 }
