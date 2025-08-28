@@ -7,24 +7,28 @@ import WelcomeScreen from './pages/Welcome';
 import StateChooseScreen from './pages/StateChooser';
 import SetupCompleteScreen from './pages/SetupComplete';
 import { useTheme, ThemeProvider } from './ThemeProvider';
+import CourseChooser from './pages/CourseChooser';
+import CountryState from '../client/static/interfaces/CountryState';
 
 const Stack = createNativeStackNavigator<Routes>();
 
 export type Routes = {
     welcome: undefined,
     chooseState: undefined,
+    chooseCourses: undefined,
     finishSetup: undefined,
 };
 
-export const StartupScreen: React.FC<{onComplete: any}> = ({ onComplete }) => {
-    const { colors } = useTheme();
-    
+export const StartupScreen: React.FC<{onComplete: () => void }> = ({ onComplete }) => {    
     return(
         <NavigationContainer>
-                <Stack.Navigator screenOptions={{headerShown: false}}>
+                <Stack.Navigator screenOptions={{headerShown: false, gestureEnabled: false, animation: 'fade'}}>
                     <Stack.Screen name="welcome" component={WelcomeScreen}/>
                     <Stack.Screen name="chooseState">
                         {() => <StateChooseScreen inStartupFlow={true} />} 
+                    </Stack.Screen>
+                    <Stack.Screen name="chooseCourses">
+                        {() => <CourseChooser state={{} as CountryState /* Implement the user chosen state here */}/>}
                     </Stack.Screen>
                     <Stack.Screen name="finishSetup">
                         {() => <SetupCompleteScreen onComplete={onComplete}/>}

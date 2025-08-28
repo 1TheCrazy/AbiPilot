@@ -8,9 +8,11 @@ type Settings = { theme: Theme, }
 export class Client{
     private static _storage = new MMKV();
 
-    private static _settings: Settings;
+    private static _settings: Settings; // General app settings stored here
     private static _isInitialStartup: boolean;
-    private static _customCourses: ManagedCourse[];
+    private static _customCourses: ManagedCourse[]; // User created courses stored here
+    private static _chosenCourses: ManagedCourse[]; // User chosen courses stored here
+
     // Default values
     private static defaultSettings = { theme: 'system' as Theme }
 
@@ -19,14 +21,14 @@ export class Client{
         const settingsResult = Client._storage.getString('settings');
         const startupResult = Client._storage.getBoolean('isInitialStartup');
         const customCoursesResult = Client._storage.getString('customCourses');
+        const chosenCoursesResult = Client._storage.getString('chosenCourses');
 
         this._settings = settingsResult != undefined ? JSON.parse(settingsResult) : this.defaultSettings;
         this._isInitialStartup = startupResult != undefined ? startupResult : true;
-        
-        // special handling for custom courses because we need to parse the json and map it to ManagedCourse[]
-        const arr = customCoursesResult != undefined ? JSON.parse(customCoursesResult) : [];
-        const restored = arr.map((obj: any) => ManagedCourse.fromJSON(obj));
-        this._customCourses = restored;
+        // special handling for custom courses because we need to parse the json-array and map it to ManagedCourse[]
+        this._customCourses = customCoursesResult != undefined ? JSON.parse(customCoursesResult).map((obj: any) => ManagedCourse.fromJSON(obj)) : [];
+        // special handling for user chosen courses because we need to parse the json-array and map it to ManagedCourse[]
+        this._chosenCourses = chosenCoursesResult != undefined ? JSON.parse(chosenCoursesResult).map((obj: any) => ManagedCourse.fromJSON(obj)) : [];
     }
 
     static settings = new Proxy<Settings>(this._settings, {
@@ -46,7 +48,6 @@ export class Client{
 
     static customCourses = new Proxy<ManagedCourse[]>(this._customCourses, {
         get(target, prop, receiver){
-            console.log(target);
             return Reflect.get(target, prop, receiver);
         },
         set(target, prop, value, receiver) {
@@ -81,7 +82,7 @@ export class Client{
     });
 
     static get isInitialStartup() : boolean {
-        return this._isInitialStartup;
+        return true;//this._isInitialStartup;
     }
     static set isInitialStartup(value: boolean) {
         this._isInitialStartup = value;
